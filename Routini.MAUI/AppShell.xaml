@@ -3,13 +3,11 @@
     x:Class="Routini.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Routini.MAUI"
-    Shell.FlyoutBehavior="Disabled"
-    Title="Routini.MAUI">
+    xmlns:pages="clr-namespace:Routini.MAUI.Pages"
+    Title="Routini"
+    Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent ContentTemplate="{DataTemplate pages:ListRoutinesView}" Route="List" />
+    <ShellContent ContentTemplate="{DataTemplate pages:CreateRoutineView}" Route="Create" />
 
 </Shell>

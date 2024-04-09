@@ -64,4 +64,13 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\CreateRoutineView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ListRoutinesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

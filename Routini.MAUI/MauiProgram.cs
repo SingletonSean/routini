@@ -2,6 +2,7 @@
 using Routini.MAUI.Application.Database;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Features.ListRoutines;
+using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
 
 namespace Routini.MAUI
@@ -29,8 +30,10 @@ namespace Routini.MAUI
             services.AddSingleton<RoutiniDatabaseInitializer>();
 
             services.AddSingleton<GetAllRoutinesQuery>();
+            services.AddSingleton<ListRoutinesView>();
 
             services.AddSingleton<CreateRoutineCommand>();
+            services.AddSingleton<CreateRoutineView>();
 
             return builder.Build();
         }
