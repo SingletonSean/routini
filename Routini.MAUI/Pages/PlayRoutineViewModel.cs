@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.ListRoutines;
 
@@ -8,6 +9,9 @@ namespace Routini.MAUI.Pages
     public partial class PlayRoutineViewModel : ObservableObject, IQueryAttributable
     {
         private readonly GetRoutineByIdQuery _query;
+        private readonly IAudioManager _audio;
+
+        private IAudioPlayer? _stepChangedSound;
 
         private Routine? _routine;
         public Routine? Routine
@@ -18,6 +22,7 @@ namespace Routini.MAUI.Pages
                 if (_routine != null)
                 {
                     _routine.Updated -= OnRoutineUpdated;
+                    _routine.StepChanged -= OnRoutineStepChanged;
                 }
 
                 _routine = value;
@@ -25,6 +30,7 @@ namespace Routini.MAUI.Pages
                 if (_routine != null)
                 {
                     _routine.Updated += OnRoutineUpdated;
+                    _routine.StepChanged += OnRoutineStepChanged;
                 }
 
                 OnPropertyChanged(nameof(Name));
@@ -43,9 +49,15 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private bool? _loading;
 
-        public PlayRoutineViewModel(GetRoutineByIdQuery query)
+        public PlayRoutineViewModel(GetRoutineByIdQuery query, IAudioManager audio)
         {
             _query = query;
+            _audio = audio;
+        }
+
+        ~PlayRoutineViewModel()
+        {
+            _stepChangedSound?.Dispose();
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -97,6 +109,23 @@ namespace Routini.MAUI.Pages
         {
             OnPropertyChanged(nameof(CurrentStepName));
             OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
+        }
+
+        private async void OnRoutineStepChanged()
+        {
+            try
+            {
+                if (_stepChangedSound == null)
+                {
+                    _stepChangedSound = _audio.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("ping.mp3"));
+                }
+
+                _stepChangedSound.Play();
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }

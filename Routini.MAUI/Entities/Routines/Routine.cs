@@ -22,7 +22,8 @@ namespace Routini.MAUI.Entities.Routines
         private readonly System.Timers.Timer _timer;
 
         public event Action? Updated;
-        
+        public event Action? StepChanged;
+
         private int _currentStepIndex = 0;
         private DateTimeOffset _currentStepStartTime;
         public RoutineStep? CurrentStep
@@ -112,6 +113,8 @@ namespace Routini.MAUI.Entities.Routines
             {
                 _currentStepIndex++;
                 _currentStepStartTime = DateTimeOffset.Now;
+
+                StepChanged?.Invoke();
             }
 
             if (CurrentStep == null)

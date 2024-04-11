@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio;
 using Routini.MAUI.Application.Database;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Features.ListRoutines;
@@ -29,6 +30,7 @@ namespace Routini.MAUI
 
             services.AddSingleton<SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
+            services.AddSingleton(AudioManager.Current);
 
             services.AddSingleton<GetAllRoutinesQuery>();
             services.AddSingleton<ListRoutinesViewModel>();
