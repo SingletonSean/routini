@@ -5,9 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Play Routine">
     <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
+        <VerticalStackLayout>
+            <Label Text="{Binding Name}" />
+        </VerticalStackLayout>
+        <Button Command="{Binding StartRoutineCommand}" Text="Start" />
+        <Label Text="{Binding CurrentStepName}" />
+        <Label Text="{Binding CurrentStepSecondsRemaining}" />
     </VerticalStackLayout>
 </ContentPage>
