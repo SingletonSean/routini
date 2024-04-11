@@ -17,13 +17,21 @@ namespace Routini.MAUI.Features.CreateRoutine
         {
             ISQLiteAsyncConnection database = _sqliteConnectionFactory.Create();
 
-            RoutineDto dto = new RoutineDto()
+            RoutineDto routineDto = new RoutineDto()
             {
                 Id = Guid.NewGuid(),
                 Name = routine.Name
             };
+            await database.InsertAsync(routineDto);
 
-            await database.InsertAsync(dto);
+            IEnumerable<RoutineStepDto> routineStepDtos = routine.Steps.Select(s => new RoutineStepDto()
+            {
+                Id = Guid.NewGuid(),
+                RoutineId = routineDto.Id,
+                Name = s.Name,
+                DurationMilliseconds = s.Duration.TotalMilliseconds
+            });
+            await database.InsertAllAsync(routineStepDtos);
         }
     }
 }

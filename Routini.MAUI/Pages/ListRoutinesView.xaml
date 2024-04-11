@@ -19,7 +19,7 @@
                     <VerticalStackLayout>
                         <VerticalStackLayout>
                             <Label Text="{Binding Name}" />
-                            <Label Text="X Steps" />
+                            <Label Text="{Binding StepsCount}" />
                         </VerticalStackLayout>
                         <VerticalStackLayout>
                             <Button Text="Play" />

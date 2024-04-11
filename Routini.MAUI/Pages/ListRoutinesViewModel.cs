@@ -45,7 +45,7 @@ namespace Routini.MAUI.Pages
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ErrorMessage = "Failed to load routines. Please try again later.";
             }
@@ -63,7 +63,7 @@ namespace Routini.MAUI.Pages
 
         private RoutinePreviewViewModel CreateRoutinePreviewViewModel(Routine routine)
         {
-            return new RoutinePreviewViewModel(routine.Id, routine.Name);
+            return new RoutinePreviewViewModel(routine.Id, routine.Name, routine.Steps.Count());
         }
     }
 }

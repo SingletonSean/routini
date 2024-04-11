@@ -18,6 +18,7 @@ namespace Routini.MAUI.Application.Database
             ISQLiteAsyncConnection database = _sqliteConnectionFactory.Create();
 
             await database.CreateTableAsync<RoutineDto>();
+            await database.CreateTableAsync<RoutineStepDto>();
         }
     }
 }

@@ -17,9 +17,23 @@ namespace Routini.MAUI.Features.ListRoutines
         {
             ISQLiteAsyncConnection database = _sqliteConnectionFactory.Create();
 
-            IEnumerable<RoutineDto> dtos = await database.Table<RoutineDto>().ToListAsync();
+            IEnumerable<RoutineDto> routineDtos = await database
+                .Table<RoutineDto>()
+                .ToListAsync();
+            IEnumerable<Guid> routineIds = routineDtos.Select(r => r.Id);
 
-            return dtos.Select(d => new Routine(d.Id, d.Name, new List<RoutineStep>()));
+            IEnumerable<RoutineStepDto> routineStepDtos = await database
+                .Table<RoutineStepDto>()
+                .Where(routineStep => routineIds.Contains(routineStep.RoutineId))
+                .ToListAsync();
+            ILookup<Guid, RoutineStepDto> routineStepsForRoutine = routineStepDtos
+                .ToLookup(r => r.RoutineId);
+
+            return routineDtos.Select(d => new Routine(
+                d.Id, 
+                d.Name, 
+                routineStepsForRoutine[d.Id]
+                    .Select(s => new RoutineStep(s.Name, TimeSpan.FromMilliseconds(s.DurationMilliseconds ?? 0)))));
         }
     }
 }

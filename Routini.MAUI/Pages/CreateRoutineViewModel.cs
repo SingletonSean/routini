@@ -41,7 +41,10 @@ namespace Routini.MAUI.Pages
 
             try
             {
-                NewRoutine newRoutine = new NewRoutine(Name);
+                NewRoutine newRoutine = new NewRoutine(Name, new List<NewRoutineStep>()
+                {
+                    new NewRoutineStep("Test1", TimeSpan.FromSeconds(30))
+                });
 
                 await _mutation.Execute(newRoutine);
 
