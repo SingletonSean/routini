@@ -9,6 +9,9 @@
             <Label Text="{Binding Name}" />
         </VerticalStackLayout>
         <Button Command="{Binding StartRoutineCommand}" Text="Start" />
+        <Button Command="{Binding PauseRoutineCommand}" Text="Pause" />
+        <Button Command="{Binding ResumeRoutineCommand}" Text="Resume" />
+        <Button Command="{Binding CancelRoutineCommand}" Text="Cancel" />
         <Label Text="{Binding CurrentStepName}" />
         <Label Text="{Binding CurrentStepSecondsRemaining}" />
     </VerticalStackLayout>

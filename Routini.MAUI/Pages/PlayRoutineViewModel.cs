@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.ListRoutines;
-using System.Timers;
 
 namespace Routini.MAUI.Pages
 {
@@ -10,11 +9,33 @@ namespace Routini.MAUI.Pages
     {
         private readonly GetRoutineByIdQuery _query;
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(Name))]
         private Routine? _routine;
+        public Routine? Routine
+        {
+            get => _routine;
+            set
+            {
+                if (_routine != null)
+                {
+                    _routine.Updated -= OnRoutineUpdated;
+                }
+
+                _routine = value;
+
+                if (_routine != null)
+                {
+                    _routine.Updated += OnRoutineUpdated;
+                }
+
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(CurrentStepName));
+                OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
+            }
+        }
 
         public string Name => Routine?.Name ?? string.Empty;
+        public string CurrentStepName => Routine?.CurrentStep?.Name ?? string.Empty;
+        public double CurrentStepSecondsRemaining => Routine?.CurrentStepSecondsRemaining ?? 0;
 
         [ObservableProperty]
         private string? _errorMessage;
@@ -48,84 +69,34 @@ namespace Routini.MAUI.Pages
             }
         }
 
-        private System.Timers.Timer _timer = new System.Timers.Timer();
-        private int _currentStepIndex = 0;
-        private DateTimeOffset _currentStepStartTime;
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(CurrentStepName))]
-        private RoutineStep? _currentStep;
-
-        public string CurrentStepName => CurrentStep?.Name ?? string.Empty;
-
-        public double CurrentStepSecondsRemaining
-        {
-            get
-            {
-                if (CurrentStep == null)
-                {
-                    return 0;
-                }
-
-                return Math.Ceiling(
-                    CurrentStep.Duration.TotalSeconds - 
-                    DateTimeOffset.Now.Subtract(_currentStepStartTime).TotalSeconds);
-            }
-        }
-
         [RelayCommand]
         private void StartRoutine()
         {
-            if (Routine == null)
-            {
-                return;
-            }
-
-            _timer.Interval = 250;
-            _timer.Elapsed += OnTimerElapsed;
-            _timer.Start();
-
-            _currentStepIndex = 0;
-            _currentStepStartTime = DateTimeOffset.Now;
-            CurrentStep = Routine.Steps.ElementAt(_currentStepIndex);
+            Routine?.Start();
         }
 
         [RelayCommand]
         private void PauseRoutine()
         {
-            _timer.Stop();
+            Routine?.Pause();
         }
 
         [RelayCommand]
         private void ResumeRoutine()
         {
-            _timer.Start();
+            Routine?.Resume();
         }
 
         [RelayCommand]
         private void CancelRoutine()
         {
-            _timer.Stop();
-            _timer.Elapsed -= OnTimerElapsed;
-            _currentStepIndex = 0;
-            CurrentStep = null;
+            Routine?.Cancel();
         }
 
-        private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
+        private void OnRoutineUpdated()
         {
-            if (Routine == null)
-            {
-                return;
-            }
-
+            OnPropertyChanged(nameof(CurrentStepName));
             OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
-
-            if (CurrentStepSecondsRemaining <= 0)
-            {
-                _currentStepIndex += 1;
-                _currentStepStartTime = DateTimeOffset.Now;
-                CurrentStep = Routine.Steps.ElementAt(_currentStepIndex);
-            }
         }
     }
 }
