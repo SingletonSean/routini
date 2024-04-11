@@ -21,6 +21,7 @@
                             <VerticalStackLayout>
                                 <Entry Text="{Binding Name}" />
                                 <Entry Text="{Binding DurationSeconds}" />
+                                <Button Command="{Binding DeleteCommand}" Text="Delete" />
                             </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

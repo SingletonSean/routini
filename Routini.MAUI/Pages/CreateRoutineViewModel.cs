@@ -42,7 +42,12 @@ namespace Routini.MAUI.Pages
         [RelayCommand]
         private void AddRoutineStep()
         {
-            RoutineSteps.Add(new RoutineStepFormViewModel());
+            RoutineSteps.Add(new RoutineStepFormViewModel(DeleteRoutineStep));
+        }
+
+        private void DeleteRoutineStep(RoutineStepFormViewModel viewModel)
+        {
+            RoutineSteps.Remove(viewModel);
         }
 
         [RelayCommand]
