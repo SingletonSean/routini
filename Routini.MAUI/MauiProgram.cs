@@ -2,6 +2,7 @@
 using Plugin.Maui.Audio;
 using Routini.MAUI.Application.Database;
 using Routini.MAUI.Features.CreateRoutine;
+using Routini.MAUI.Features.DeleteRoutine;
 using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
@@ -39,6 +40,8 @@ namespace Routini.MAUI
             services.AddSingleton<CreateRoutineMutation>();
             services.AddSingleton<CreateRoutineViewModel>();
             services.AddSingleton<CreateRoutineView>();
+
+            services.AddSingleton<DeleteRoutineMutation>();
 
             services.AddSingleton<GetRoutineByIdQuery>();
             services.AddSingleton<PlayRoutineViewModel>();
