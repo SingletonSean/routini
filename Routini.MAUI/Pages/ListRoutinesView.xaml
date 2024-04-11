@@ -7,10 +7,7 @@
     OnAppearingCommand="{Binding LoadRoutinesCommand}">
     <VerticalStackLayout>
         <VerticalStackLayout>
-            <VerticalStackLayout>
-                <Label Text="Your Routines" />
-                <Label Text="These are your saved routines. Select one to begin the routine!" />
-            </VerticalStackLayout>
+            <Label Text="Your Routines" />
             <Button Command="{Binding NavigateCreateRoutineCommand}" Text="Create Routine" />
         </VerticalStackLayout>
         <CollectionView ItemsSource="{Binding RoutinePreviews}">

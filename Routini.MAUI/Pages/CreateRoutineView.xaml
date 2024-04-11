@@ -12,6 +12,20 @@
                 <Label Text="Name" />
                 <Entry Text="{Binding Name}" />
             </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Steps" />
+                <Button Command="{Binding AddRoutineStepCommand}" Text="Add Step" />
+                <CollectionView ItemsSource="{Binding RoutineSteps}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <Entry Text="{Binding Name}" />
+                                <Entry Text="{Binding DurationSeconds}" />
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
             <Button Command="{Binding CreateRoutineCommand}" Text="Create" />
         </VerticalStackLayout>
     </VerticalStackLayout>

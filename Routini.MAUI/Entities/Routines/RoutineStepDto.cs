@@ -5,6 +5,6 @@
         public Guid Id { get; set; }
         public Guid RoutineId { get; set; }
         public string? Name { get; set; }
-        public double? DurationMilliseconds { get; set; }
+        public double? DurationSeconds { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Routini.MAUI.Features.CreateRoutine
                 Id = Guid.NewGuid(),
                 RoutineId = routineDto.Id,
                 Name = s.Name,
-                DurationMilliseconds = s.Duration.TotalMilliseconds
+                DurationSeconds = s.Duration.TotalSeconds
             });
             await database.InsertAllAsync(routineStepDtos);
         }

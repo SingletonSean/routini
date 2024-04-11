@@ -45,7 +45,7 @@ namespace Routini.MAUI.Pages
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ErrorMessage = "Failed to load routines. Please try again later.";
             }

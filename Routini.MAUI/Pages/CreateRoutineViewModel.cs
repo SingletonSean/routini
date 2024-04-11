@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Shared.Shells;
+using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Pages
 {
@@ -13,6 +14,8 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private string _name = string.Empty;
 
+        public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
+
         [ObservableProperty]
         private string? _errorMessage;
 
@@ -23,14 +26,23 @@ namespace Routini.MAUI.Pages
         {
             _mutation = mutation;
             _shell = shell;
+
+            RoutineSteps = new ObservableCollection<RoutineStepFormViewModel>();
         }
 
         [RelayCommand]
         private void ResetForm()
         {
             Name = string.Empty;
+            RoutineSteps.Clear();
             Loading = false;
             ErrorMessage = null;
+        }
+
+        [RelayCommand]
+        private void AddRoutineStep()
+        {
+            RoutineSteps.Add(new RoutineStepFormViewModel());
         }
 
         [RelayCommand]
@@ -41,10 +53,10 @@ namespace Routini.MAUI.Pages
 
             try
             {
-                NewRoutine newRoutine = new NewRoutine(Name, new List<NewRoutineStep>()
-                {
-                    new NewRoutineStep("Test1", TimeSpan.FromSeconds(30))
-                });
+                IEnumerable<NewRoutineStep> newRoutineSteps = RoutineSteps
+                    .Select(s => new NewRoutineStep(
+                        s.Name, TimeSpan.FromSeconds(s.DurationSeconds)));
+                NewRoutine newRoutine = new NewRoutine(Name, newRoutineSteps);
 
                 await _mutation.Execute(newRoutine);
 
