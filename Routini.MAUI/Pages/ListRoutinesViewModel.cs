@@ -63,7 +63,7 @@ namespace Routini.MAUI.Pages
 
         private RoutinePreviewViewModel CreateRoutinePreviewViewModel(Routine routine)
         {
-            return new RoutinePreviewViewModel(routine.Id, routine.Name, routine.Steps.Count());
+            return new RoutinePreviewViewModel(routine.Id, routine.Name, routine.Steps.Count(), _shell);
         }
     }
 }

@@ -38,6 +38,10 @@ namespace Routini.MAUI
             services.AddSingleton<CreateRoutineViewModel>();
             services.AddSingleton<CreateRoutineView>();
 
+            services.AddSingleton<GetRoutineByIdQuery>();
+            services.AddSingleton<PlayRoutineViewModel>();
+            services.AddSingleton<PlayRoutineView>();
+
             services.AddSingleton<RoutiniDatabaseInitializer>();
 
             return builder.Build();

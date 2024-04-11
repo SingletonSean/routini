@@ -66,10 +66,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\PlayRoutineView.xaml.cs">
+	    <DependentUpon>PlayRoutineView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Pages\CreateRoutineView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ListRoutinesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PlayRoutineView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

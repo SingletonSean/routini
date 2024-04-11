@@ -19,7 +19,7 @@
                             <Label Text="{Binding StepsCount}" />
                         </VerticalStackLayout>
                         <VerticalStackLayout>
-                            <Button Text="Play" />
+                            <Button Command="{Binding NavigateRoutinePlayCommand}" Text="Play" />
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                 </DataTemplate>
