@@ -65,11 +65,6 @@ namespace Routini.MAUI.Pages
             _shell = shell;
         }
 
-        ~PlayRoutineViewModel()
-        {
-            _stepChangedSound?.Dispose();
-        }
-
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
         {
             Loading = true;
@@ -89,6 +84,17 @@ namespace Routini.MAUI.Pages
             {
                 Loading = false;
             }
+        }
+
+        [RelayCommand]
+        private async Task EditRoutine()
+        {
+            if (Routine == null)
+            {
+                return;
+            }
+
+            await _shell.GoToAsync($"Edit?Id={Routine.Id}");
         }
 
         [RelayCommand]

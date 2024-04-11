@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Routini.MAUI.Features.CreateRoutine
+namespace Routini.MAUI.Entities.Routines
 {
     public partial class RoutineStepFormViewModel : ObservableObject
     {
@@ -11,7 +11,7 @@ namespace Routini.MAUI.Features.CreateRoutine
         private string _name = string.Empty;
 
         [ObservableProperty]
-        private int _durationSeconds = 30;
+        private double _durationSeconds = 30;
 
         public RoutineStepFormViewModel(Action<RoutineStepFormViewModel> onDelete)
         {

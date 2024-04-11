@@ -67,13 +67,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Entities\Routines\RoutineFormView.xaml.cs">
+	    <DependentUpon>RoutineFormView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\PlayRoutineView.xaml.cs">
 	    <DependentUpon>PlayRoutineView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Entities\Routines\RoutineFormView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreateRoutineView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\EditRoutineView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ListRoutinesView.xaml">

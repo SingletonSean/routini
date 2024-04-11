@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Shared.Shells;
-using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Pages
 {
@@ -11,57 +11,36 @@ namespace Routini.MAUI.Pages
         private readonly CreateRoutineMutation _mutation;
         private readonly IShell _shell;
 
-        [ObservableProperty]
-        private string _name = string.Empty;
-
-        public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
-
-        [ObservableProperty]
-        private string? _errorMessage;
-
-        [ObservableProperty]
-        private bool? _loading;
+        public RoutineFormViewModel RoutineFormViewModel { get; }
 
         public CreateRoutineViewModel(CreateRoutineMutation mutation, IShell shell)
         {
             _mutation = mutation;
             _shell = shell;
 
-            RoutineSteps = new ObservableCollection<RoutineStepFormViewModel>();
+            RoutineFormViewModel = new RoutineFormViewModel(CreateRoutine);
         }
 
         [RelayCommand]
         private void ResetForm()
         {
-            Name = string.Empty;
-            RoutineSteps.Clear();
-            Loading = false;
-            ErrorMessage = null;
+            RoutineFormViewModel.Name = string.Empty;
+            RoutineFormViewModel.RoutineSteps.Clear();
+            RoutineFormViewModel.Submitting = false;
+            RoutineFormViewModel.ErrorMessage = null;
         }
 
-        [RelayCommand]
-        private void AddRoutineStep()
-        {
-            RoutineSteps.Add(new RoutineStepFormViewModel(DeleteRoutineStep));
-        }
-
-        private void DeleteRoutineStep(RoutineStepFormViewModel viewModel)
-        {
-            RoutineSteps.Remove(viewModel);
-        }
-
-        [RelayCommand]
         private async Task CreateRoutine()
         {
-            Loading = true;
-            ErrorMessage = null;
+            RoutineFormViewModel.Submitting = true;
+            RoutineFormViewModel.ErrorMessage = null;
 
             try
             {
-                IEnumerable<NewRoutineStep> newRoutineSteps = RoutineSteps
+                IEnumerable<NewRoutineStep> newRoutineSteps = RoutineFormViewModel.RoutineSteps
                     .Select(s => new NewRoutineStep(
                         s.Name, TimeSpan.FromSeconds(s.DurationSeconds)));
-                NewRoutine newRoutine = new NewRoutine(Name, newRoutineSteps);
+                NewRoutine newRoutine = new NewRoutine(RoutineFormViewModel.Name, newRoutineSteps);
 
                 await _mutation.Execute(newRoutine);
 
@@ -69,11 +48,11 @@ namespace Routini.MAUI.Pages
             }
             catch (Exception)
             {
-                ErrorMessage = "Failed to create routine. Please try again later.";
+                RoutineFormViewModel.ErrorMessage = "Failed to create routine. Please try again later.";
             }
             finally
             {
-                Loading = false;
+                RoutineFormViewModel.Submitting = false;
             }
         }
     }

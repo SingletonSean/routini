@@ -12,6 +12,7 @@
         <Button Command="{Binding PauseRoutineCommand}" Text="Pause" />
         <Button Command="{Binding ResumeRoutineCommand}" Text="Resume" />
         <Button Command="{Binding CancelRoutineCommand}" Text="Cancel" />
+        <Button Command="{Binding EditRoutineCommand}" Text="Edit" />
         <Button Command="{Binding DeleteRoutineCommand}" Text="Delete" />
         <Label Text="{Binding CurrentStepName}" />
         <Label Text="{Binding CurrentStepSecondsRemaining}" />

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Routini.MAUI.Entities.Routines.RoutineFormView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Text="Name" />
+            <Entry Text="{Binding Name}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Text="Steps" />
+            <Button Command="{Binding AddRoutineStepCommand}" Text="Add Step" />
+            <CollectionView ItemsSource="{Binding RoutineSteps}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <Entry Text="{Binding Name}" />
+                            <Entry Text="{Binding DurationSeconds}" />
+                            <Button Command="{Binding DeleteCommand}" Text="Delete" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+        <Button Command="{Binding SubmitCommand}" Text="Submit" />
+    </VerticalStackLayout>
+</ContentView>
