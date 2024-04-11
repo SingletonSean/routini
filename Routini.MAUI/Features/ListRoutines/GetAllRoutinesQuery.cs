@@ -19,7 +19,7 @@ namespace Routini.MAUI.Features.ListRoutines
 
             IEnumerable<RoutineDto> dtos = await database.Table<RoutineDto>().ToListAsync();
 
-            return dtos.Select(d => new Routine(d.Name, new List<RoutineStep>()));
+            return dtos.Select(d => new Routine(d.Id, d.Name, new List<RoutineStep>()));
         }
     }
 }

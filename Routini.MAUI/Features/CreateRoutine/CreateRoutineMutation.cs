@@ -4,11 +4,11 @@ using SQLite;
 
 namespace Routini.MAUI.Features.CreateRoutine
 {
-    public class CreateRoutineCommand
+    public class CreateRoutineMutation
     {
         private readonly SqliteConnectionFactory _sqliteConnectionFactory;
 
-        public CreateRoutineCommand(SqliteConnectionFactory sqliteConnectionFactory)
+        public CreateRoutineMutation(SqliteConnectionFactory sqliteConnectionFactory)
         {
             _sqliteConnectionFactory = sqliteConnectionFactory;
         }

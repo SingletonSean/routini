@@ -3,6 +3,16 @@
     x:Class="Routini.MAUI.Pages.CreateRoutineView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="CreateRoutineView">
-    <VerticalStackLayout />
+    Title="Create Routine"
+    OnAppearingCommand="{Binding ResetFormCommand}">
+    <VerticalStackLayout>
+        <Label Text="Create Routine" />
+        <VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Name" />
+                <Entry Text="{Binding Name}" />
+            </VerticalStackLayout>
+            <Button Command="{Binding CreateRoutineCommand}" Text="Create" />
+        </VerticalStackLayout>
+    </VerticalStackLayout>
 </ContentPage>

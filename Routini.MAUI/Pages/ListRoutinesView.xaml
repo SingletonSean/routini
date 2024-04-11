@@ -3,6 +3,30 @@
     x:Class="Routini.MAUI.Pages.ListRoutinesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ListRoutinesView">
-    <VerticalStackLayout />
+    Title="Your Routines"
+    OnAppearingCommand="{Binding LoadRoutinesCommand}">
+    <VerticalStackLayout>
+        <VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Your Routines" />
+                <Label Text="These are your saved routines. Select one to begin the routine!" />
+            </VerticalStackLayout>
+            <Button Command="{Binding NavigateCreateRoutineCommand}" Text="Create Routine" />
+        </VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding RoutinePreviews}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" />
+                            <Label Text="X Steps" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Button Text="Play" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
 </ContentPage>

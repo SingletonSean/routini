@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Routini.MAUI.Pages"
     Title="Routini"
-    Shell.FlyoutBehavior="Disabled">
-
-    <ShellContent ContentTemplate="{DataTemplate pages:ListRoutinesView}" Route="List" />
-    <ShellContent ContentTemplate="{DataTemplate pages:CreateRoutineView}" Route="Create" />
-
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ShellContent ContentTemplate="{DataTemplate pages:ListRoutinesView}" Route="Routines" />
 </Shell>

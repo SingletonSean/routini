@@ -4,6 +4,7 @@ using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
+using Routini.MAUI.Shared.Shells;
 
 namespace Routini.MAUI
 {
@@ -27,13 +28,17 @@ namespace Routini.MAUI
             IServiceCollection services = builder.Services;
 
             services.AddSingleton<SqliteConnectionFactory>();
-            services.AddSingleton<RoutiniDatabaseInitializer>();
+            services.AddSingleton<IShell, MauiShell>();
 
             services.AddSingleton<GetAllRoutinesQuery>();
+            services.AddSingleton<ListRoutinesViewModel>();
             services.AddSingleton<ListRoutinesView>();
 
-            services.AddSingleton<CreateRoutineCommand>();
+            services.AddSingleton<CreateRoutineMutation>();
+            services.AddSingleton<CreateRoutineViewModel>();
             services.AddSingleton<CreateRoutineView>();
+
+            services.AddSingleton<RoutiniDatabaseInitializer>();
 
             return builder.Build();
         }

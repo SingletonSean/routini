@@ -2,11 +2,13 @@
 {
     public class Routine
     {
+        public Guid Id { get; }
         public string Name { get; }
         public IEnumerable<RoutineStep> Steps { get; }
 
-        public Routine(string name, IEnumerable<RoutineStep> steps)
+        public Routine(Guid id, string name, IEnumerable<RoutineStep> steps)
         {
+            Id = id;
             Name = name;
             Steps = steps;
         }
