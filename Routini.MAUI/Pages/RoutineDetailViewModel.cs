@@ -85,6 +85,15 @@ namespace Routini.MAUI.Pages
                 return;
             }
 
+            if (!await _shell.DisplayAlert(
+                "Delete Routine", 
+                "Are you sure you want to delete this routine?",
+                "Yes",
+                "Cancel"))
+            {
+                return;
+            }
+
             await _deleteRoutineMutation.Execute(Routine.Id);
 
             await _shell.GoToAsync("..");
