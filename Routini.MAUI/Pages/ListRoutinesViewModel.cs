@@ -33,17 +33,12 @@ namespace Routini.MAUI.Pages
         {
             Loading = true;
             ErrorMessage = null;
-            RoutinePreviews.Clear();
 
             try
             {
                 IEnumerable<Routine> routines = await _query.Execute();
 
-                foreach (Routine routine in routines)
-                {
-                    RoutinePreviews.Add(CreateRoutinePreviewViewModel(routine));
-                }
-
+                ResetRoutines(routines);
             }
             catch (Exception)
             {
@@ -52,6 +47,16 @@ namespace Routini.MAUI.Pages
             finally
             {
                 Loading = false;
+            }
+        }
+
+        private void ResetRoutines(IEnumerable<Routine> routines)
+        {
+            RoutinePreviews.Clear();
+
+            foreach (Routine routine in routines)
+            {
+                RoutinePreviews.Add(CreateRoutinePreviewViewModel(routine));
             }
         }
 

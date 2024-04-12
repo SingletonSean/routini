@@ -9,6 +9,12 @@
     <MauiXaml Update="Entities\Routines\RoutineFormView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Features\EditRoutine\EditRoutineFormView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Features\PlayRoutine\PlayRoutineView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Pages\CreateRoutineView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -18,7 +24,7 @@
     <MauiXaml Update="Pages\ListRoutinesView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="Pages\PlayRoutineView.xaml">
+    <MauiXaml Update="Pages\RoutineDetailView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>

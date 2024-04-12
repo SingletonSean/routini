@@ -49,8 +49,8 @@ namespace Routini.MAUI
             services.AddSingleton<DeleteRoutineMutation>();
 
             services.AddSingleton<GetRoutineByIdQuery>();
-            services.AddSingleton<PlayRoutineViewModel>();
-            services.AddSingleton<PlayRoutineView>();
+            services.AddSingleton<RoutineDetailViewModel>();
+            services.AddSingleton<RoutineDetailView>();
 
             services.AddSingleton<RoutiniDatabaseInitializer>();
 

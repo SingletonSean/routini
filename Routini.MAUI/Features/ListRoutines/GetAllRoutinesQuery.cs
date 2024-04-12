@@ -31,9 +31,11 @@ namespace Routini.MAUI.Features.ListRoutines
 
             return routineDtos.Select(d => new Routine(
                 d.Id, 
-                d.Name, 
+                d.Name ?? string.Empty, 
                 routineStepsForRoutine[d.Id]
-                    .Select(s => new RoutineStep(s.Name, TimeSpan.FromSeconds(s.DurationSeconds ?? 0)))));
+                    .Select(s => new RoutineStep(
+                        s.Name ?? string.Empty, 
+                        TimeSpan.FromSeconds(s.DurationSeconds ?? 0)))));
         }
     }
 }

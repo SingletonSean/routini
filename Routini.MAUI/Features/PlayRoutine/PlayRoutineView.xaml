@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="Routini.MAUI.Pages.PlayRoutineView"
+<ContentView
+    x:Class="Routini.MAUI.Features.PlayRoutine.PlayRoutineView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Play Routine"
-    OnDisappearingCommand="{Binding CancelRoutineCommand}">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label Text="{Binding Name}" />
-        </VerticalStackLayout>
         <Button Command="{Binding StartRoutineCommand}" Text="Start" />
         <Button Command="{Binding PauseRoutineCommand}" Text="Pause" />
         <Button Command="{Binding ResumeRoutineCommand}" Text="Resume" />
         <Button Command="{Binding CancelRoutineCommand}" Text="Cancel" />
-        <Button Command="{Binding EditRoutineCommand}" Text="Edit" />
-        <Button Command="{Binding DeleteRoutineCommand}" Text="Delete" />
+
         <Label Text="{Binding CurrentStepName}" />
         <Label Text="{Binding CurrentStepSecondsRemaining}" />
     </VerticalStackLayout>
-</ContentPage>
+</ContentView>

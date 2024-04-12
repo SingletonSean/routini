@@ -70,13 +70,19 @@
 	  <Compile Update="Entities\Routines\RoutineFormView.xaml.cs">
 	    <DependentUpon>RoutineFormView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\PlayRoutineView.xaml.cs">
-	    <DependentUpon>PlayRoutineView.xaml</DependentUpon>
+	  <Compile Update="Pages\RoutineDetailView.xaml.cs">
+	    <DependentUpon>RoutineDetailView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Entities\Routines\RoutineFormView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\EditRoutine\EditRoutineFormView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\PlayRoutine\PlayRoutineView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreateRoutineView.xaml">
@@ -88,7 +94,7 @@
 	  <MauiXaml Update="Pages\ListRoutinesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\PlayRoutineView.xaml">
+	  <MauiXaml Update="Pages\RoutineDetailView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Routini.MAUI.Pages.RoutineDetailView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:play="clr-namespace:Routini.MAUI.Features.PlayRoutine"
+    Title="Play Routine"
+    OnDisappearingCommand="{Binding DisposeRoutineCommand}">
+    <VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label Text="{Binding Name}" />
+        </VerticalStackLayout>
+
+        <Button Command="{Binding EditRoutineCommand}" Text="Edit" />
+        <Button Command="{Binding DeleteRoutineCommand}" Text="Delete" />
+
+        <play:PlayRoutineView BindingContext="{Binding PlayRoutineViewModel}" />
+    </VerticalStackLayout>
+</ContentPage>

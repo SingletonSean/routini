@@ -12,9 +12,8 @@ namespace Routini.MAUI.Pages
         private readonly UpdateRoutineMutation _updateRoutineMutation;
         private readonly IShell _shell;
 
-        private Routine? _routine;
-
-        public RoutineFormViewModel RoutineFormViewModel { get; }
+        [ObservableProperty]
+        private EditRoutineFormViewModel? _editRoutineFormViewModel;
 
         [ObservableProperty]
         private string? _errorMessage;
@@ -30,8 +29,6 @@ namespace Routini.MAUI.Pages
             _getRoutineByIdQuery = getRoutineByIdQuery;
             _updateRoutineMutation = updateRoutineMutation;
             _shell = shell;
-
-            RoutineFormViewModel = new RoutineFormViewModel(EditRoutine);
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -43,10 +40,9 @@ namespace Routini.MAUI.Pages
             {
                 Guid id = Guid.Parse(queryParameters["Id"]?.ToString() ?? "");
 
-                _routine = await _getRoutineByIdQuery.Execute(id);
+                Routine routine = await _getRoutineByIdQuery.Execute(id);
 
-                RoutineFormViewModel.Name = _routine.Name;
-                RoutineFormViewModel.ResetRoutineSteps(_routine.Steps);
+                EditRoutineFormViewModel = new EditRoutineFormViewModel(routine, _updateRoutineMutation, _shell);
             }
             catch (Exception)
             {
@@ -55,38 +51,6 @@ namespace Routini.MAUI.Pages
             finally
             {
                 Loading = false;
-            }
-        }
-
-        private async Task EditRoutine()
-        {
-            if (_routine == null)
-            {
-                return;
-            }
-
-            RoutineFormViewModel.Submitting = true;
-            RoutineFormViewModel.ErrorMessage = null;
-
-            try
-            {
-                Routine updatedRoutine = new Routine(
-                    _routine.Id,
-                    RoutineFormViewModel.Name,
-                    RoutineFormViewModel.RoutineSteps.Select(s => new RoutineStep(s.Name, TimeSpan.FromSeconds(s.DurationSeconds)))
-                );
-
-                await _updateRoutineMutation.Execute(updatedRoutine);
-
-                await _shell.GoToAsync("..");
-            }
-            catch(Exception)
-            {
-                ErrorMessage = "Failed to update routine. Please try again later.";
-            }
-            finally
-            {
-                RoutineFormViewModel.Submitting = false;
             }
         }
     }

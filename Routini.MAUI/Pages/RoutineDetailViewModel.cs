@@ -4,48 +4,26 @@ using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.DeleteRoutine;
 using Routini.MAUI.Features.ListRoutines;
+using Routini.MAUI.Features.PlayRoutine;
 using Routini.MAUI.Shared.Shells;
 
 namespace Routini.MAUI.Pages
 {
-    public partial class PlayRoutineViewModel : ObservableObject, IQueryAttributable
+    public partial class RoutineDetailViewModel : ObservableObject, IQueryAttributable
     {
         private readonly GetRoutineByIdQuery _query;
         private readonly DeleteRoutineMutation _deleteRoutineMutation;
         private readonly IAudioManager _audio;
         private readonly IShell _shell;
 
-        private IAudioPlayer? _stepChangedSound;
-
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Name))]
         private Routine? _routine;
-        public Routine? Routine
-        {
-            get => _routine;
-            set
-            {
-                if (_routine != null)
-                {
-                    _routine.Updated -= OnRoutineUpdated;
-                    _routine.StepChanged -= OnRoutineStepChanged;
-                }
-
-                _routine = value;
-
-                if (_routine != null)
-                {
-                    _routine.Updated += OnRoutineUpdated;
-                    _routine.StepChanged += OnRoutineStepChanged;
-                }
-
-                OnPropertyChanged(nameof(Name));
-                OnPropertyChanged(nameof(CurrentStepName));
-                OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
-            }
-        }
 
         public string Name => Routine?.Name ?? string.Empty;
-        public string CurrentStepName => Routine?.CurrentStep?.Name ?? string.Empty;
-        public double CurrentStepSecondsRemaining => Routine?.CurrentStepSecondsRemaining ?? 0;
+
+        [ObservableProperty]
+        private PlayRoutineViewModel? _playRoutineViewModel;
 
         [ObservableProperty]
         private string? _errorMessage;
@@ -53,7 +31,7 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private bool? _loading;
 
-        public PlayRoutineViewModel(
+        public RoutineDetailViewModel(
             GetRoutineByIdQuery query,
             DeleteRoutineMutation deleteRoutineMutation,
             IAudioManager audio,
@@ -75,6 +53,8 @@ namespace Routini.MAUI.Pages
                 Guid id = Guid.Parse(queryParameters["Id"]?.ToString() ?? "");
 
                 Routine = await _query.Execute(id);
+
+                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio);
             }
             catch (Exception)
             {
@@ -111,50 +91,9 @@ namespace Routini.MAUI.Pages
         }
 
         [RelayCommand]
-        private void StartRoutine()
+        private void DisposeRoutine()
         {
-            Routine?.Start();
-        }
-
-        [RelayCommand]
-        private void PauseRoutine()
-        {
-            Routine?.Pause();
-        }
-
-        [RelayCommand]
-        private void ResumeRoutine()
-        {
-            Routine?.Resume();
-        }
-
-        [RelayCommand]
-        private void CancelRoutine()
-        {
-            Routine?.Cancel();
-        }
-
-        private void OnRoutineUpdated()
-        {
-            OnPropertyChanged(nameof(CurrentStepName));
-            OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
-        }
-
-        private async void OnRoutineStepChanged()
-        {
-            try
-            {
-                if (_stepChangedSound == null)
-                {
-                    _stepChangedSound = _audio.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("ping.mp3"));
-                }
-
-                _stepChangedSound.Play();
-            }
-            catch (Exception)
-            {
-
-            }
+            PlayRoutineViewModel?.CancelRoutineCommand.Execute(null);
         }
     }
 }

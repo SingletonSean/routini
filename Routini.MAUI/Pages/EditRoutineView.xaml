@@ -3,10 +3,10 @@
     x:Class="Routini.MAUI.Pages.EditRoutineView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:routines="clr-namespace:Routini.MAUI.Entities.Routines"
+    xmlns:edit="clr-namespace:Routini.MAUI.Features.EditRoutine"
     Title="Edit Routine">
     <VerticalStackLayout>
         <Label Text="Edit Routine" />
-        <routines:RoutineFormView BindingContext="{Binding RoutineFormViewModel}" />
+        <edit:EditRoutineFormView BindingContext="{Binding EditRoutineFormViewModel}" />
     </VerticalStackLayout>
 </ContentPage>

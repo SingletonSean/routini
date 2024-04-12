@@ -24,10 +24,11 @@ namespace Routini.MAUI.Pages
         [RelayCommand]
         private void ResetForm()
         {
-            RoutineFormViewModel.Name = string.Empty;
-            RoutineFormViewModel.RoutineSteps.Clear();
             RoutineFormViewModel.Submitting = false;
             RoutineFormViewModel.ErrorMessage = null;
+
+            RoutineFormViewModel.Name = string.Empty;
+            RoutineFormViewModel.RoutineSteps.Clear();
         }
 
         private async Task CreateRoutine()

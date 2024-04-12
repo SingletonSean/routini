@@ -23,7 +23,7 @@ namespace Routini.MAUI.Features.ListRoutines
         [RelayCommand]
         private async Task NavigateRoutinePlay()
         {
-            await _shell.GoToAsync($"Play?Id={Id}");
+            await _shell.GoToAsync($"Detail?Id={Id}");
         }
     }
 }

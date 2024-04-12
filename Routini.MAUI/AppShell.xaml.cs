@@ -9,8 +9,8 @@ namespace Routini.MAUI
             InitializeComponent();
 
             Routing.RegisterRoute("Routines/Create", typeof(CreateRoutineView));
-            Routing.RegisterRoute("Routines/Play", typeof(PlayRoutineView));
-            Routing.RegisterRoute("Routines/Play/Edit", typeof(EditRoutineView));
+            Routing.RegisterRoute("Routines/Detail", typeof(RoutineDetailView));
+            Routing.RegisterRoute("Routines/Detail/Edit", typeof(EditRoutineView));
         }
     }
 }
