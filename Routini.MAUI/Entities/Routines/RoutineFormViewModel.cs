@@ -14,6 +14,7 @@ namespace Routini.MAUI.Entities.Routines
         [Required(ErrorMessage = "Required")]
         [MinLength(1, ErrorMessage = "Required")]
         private string _name = string.Empty;
+        public string? NameErrorMessage => GetErrors(nameof(Name)).FirstOrDefault()?.ErrorMessage;
 
         public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
 
@@ -28,6 +29,8 @@ namespace Routini.MAUI.Entities.Routines
             _onSubmit = onSubmit;
 
             RoutineSteps = new ObservableCollection<RoutineStepFormViewModel>();
+
+            ErrorsChanged += OnErrorsChanged;
         }
 
         public void ResetRoutineSteps(IEnumerable<RoutineStep> steps)
@@ -59,7 +62,24 @@ namespace Routini.MAUI.Entities.Routines
         [RelayCommand]
         private async Task Submit()
         {
+            ValidateAllProperties();
+
+            foreach (RoutineStepFormViewModel step in RoutineSteps)
+            {
+                step.Validate();
+            }
+
+            if (HasErrors || RoutineSteps.Any(s => s.HasErrors))
+            {
+                return;
+            }
+
             await _onSubmit();
+        }
+
+        private void OnErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(NameErrorMessage));
         }
     }
 }

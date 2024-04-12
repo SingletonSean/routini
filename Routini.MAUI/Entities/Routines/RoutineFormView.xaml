@@ -7,6 +7,7 @@
         <VerticalStackLayout>
             <Label Text="Name" />
             <Entry Text="{Binding Name}" />
+            <Label Text="{Binding NameErrorMessage}" TextColor="Red" />
         </VerticalStackLayout>
         <VerticalStackLayout>
             <Label Text="Steps" />
@@ -16,7 +17,9 @@
                     <DataTemplate>
                         <VerticalStackLayout>
                             <Entry Text="{Binding Name}" />
+                            <Label Text="{Binding NameErrorMessage}" TextColor="Red" />
                             <Entry Text="{Binding DurationSeconds}" />
+                            <Label Text="{Binding DurationSecondsErrorMessage}" TextColor="Red" />
                             <Button Command="{Binding DeleteCommand}" Text="Delete" />
                         </VerticalStackLayout>
                     </DataTemplate>
