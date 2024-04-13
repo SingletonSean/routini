@@ -33,6 +33,7 @@ namespace Routini.MAUI.Features.ListRoutines
                 d.Id, 
                 d.Name ?? string.Empty, 
                 routineStepsForRoutine[d.Id]
+                    .OrderBy(s => s.Order)
                     .Select(s => new RoutineStep(
                         s.Name ?? string.Empty, 
                         TimeSpan.FromSeconds(s.DurationSeconds ?? 0)))));

@@ -26,12 +26,13 @@ namespace Routini.MAUI.Features.EditRoutine
             await database.UpdateAsync(routineDto);
 
             await database.Table<RoutineStepDto>().DeleteAsync(s => s.RoutineId == updatedRoutine.Id);
-            IEnumerable<RoutineStepDto> routineStepDtos = updatedRoutine.Steps.Select(s => new RoutineStepDto()
+            IEnumerable<RoutineStepDto> routineStepDtos = updatedRoutine.Steps.Select((s, i) => new RoutineStepDto()
             {
                 Id = Guid.NewGuid(),
                 RoutineId = routineDto.Id,
                 Name = s.Name,
-                DurationSeconds = s.Duration.TotalSeconds
+                DurationSeconds = s.Duration.TotalSeconds,
+                Order = i
             });
             await database.InsertAllAsync(routineStepDtos);
         }

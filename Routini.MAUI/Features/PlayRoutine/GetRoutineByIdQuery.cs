@@ -29,9 +29,11 @@ namespace Routini.MAUI.Features.ListRoutines
             return new Routine(
                 routineDto.Id,
                 routineDto.Name ?? string.Empty,
-                routineStepDtos.Select(s => new RoutineStep(
-                    s.Name ?? string.Empty, 
-                    TimeSpan.FromSeconds(s.DurationSeconds ?? 0))));
+                routineStepDtos
+                    .OrderBy(s => s.Order)
+                    .Select(s => new RoutineStep(
+                        s.Name ?? string.Empty, 
+                        TimeSpan.FromSeconds(s.DurationSeconds ?? 0))));
         }
     }
 }

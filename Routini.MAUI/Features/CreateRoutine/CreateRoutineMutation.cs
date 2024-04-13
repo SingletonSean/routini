@@ -24,12 +24,13 @@ namespace Routini.MAUI.Features.CreateRoutine
             };
             await database.InsertAsync(routineDto);
 
-            IEnumerable<RoutineStepDto> routineStepDtos = routine.Steps.Select(s => new RoutineStepDto()
+            IEnumerable<RoutineStepDto> routineStepDtos = routine.Steps.Select((s, i) => new RoutineStepDto()
             {
                 Id = Guid.NewGuid(),
                 RoutineId = routineDto.Id,
                 Name = s.Name,
-                DurationSeconds = s.Duration.TotalSeconds
+                DurationSeconds = s.Duration.TotalSeconds,
+                Order = i
             });
             await database.InsertAllAsync(routineStepDtos);
         }
