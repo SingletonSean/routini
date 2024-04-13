@@ -12,7 +12,7 @@
         <VerticalStackLayout>
             <Label Text="Steps" />
             <Button Command="{Binding AddRoutineStepCommand}" Text="Add Step" />
-            <CollectionView ItemsSource="{Binding RoutineSteps}">
+            <CollectionView CanReorderItems="True" ItemsSource="{Binding RoutineSteps}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout>
