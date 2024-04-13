@@ -14,8 +14,13 @@ namespace Routini.MAUI.Pages
 
         public ObservableCollection<RoutinePreviewViewModel> RoutinePreviews { get; }
 
+        public bool HasRoutinePreviews => RoutinePreviews.Any();
+
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasError))]
         private string? _errorMessage;
+
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
         [ObservableProperty]
         private bool? _loading;
@@ -26,6 +31,7 @@ namespace Routini.MAUI.Pages
             _shell = shell;
 
             RoutinePreviews = new ObservableCollection<RoutinePreviewViewModel>();
+            RoutinePreviews.CollectionChanged += OnRoutinePreviewsCollectionChanged;
         }
 
         [RelayCommand]
@@ -69,6 +75,11 @@ namespace Routini.MAUI.Pages
         private RoutinePreviewViewModel CreateRoutinePreviewViewModel(Routine routine)
         {
             return new RoutinePreviewViewModel(routine.Id, routine.Name, routine.Steps.Count(), _shell);
+        }
+
+        private void OnRoutinePreviewsCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(HasRoutinePreviews));
         }
     }
 }

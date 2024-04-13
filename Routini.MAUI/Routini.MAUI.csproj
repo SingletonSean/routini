@@ -73,6 +73,9 @@
 	  <Compile Update="Pages\RoutineDetailView.xaml.cs">
 	    <DependentUpon>RoutineDetailView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Widgets\PageLayout.xaml.cs">
+	    <DependentUpon>PageLayout.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -95,6 +98,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\RoutineDetailView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Widgets\PageLayout.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

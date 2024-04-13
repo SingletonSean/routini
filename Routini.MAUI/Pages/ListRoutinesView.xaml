@@ -3,27 +3,89 @@
     x:Class="Routini.MAUI.Pages.ListRoutinesView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Routini.MAUI.Shared.Components"
+    xmlns:widgets="clr-namespace:Routini.MAUI.Widgets"
     Title="Your Routines"
     OnAppearingCommand="{Binding LoadRoutinesCommand}">
-    <VerticalStackLayout>
+    <widgets:PageLayout>
         <VerticalStackLayout>
-            <Label Text="Your Routines" />
-            <Button Command="{Binding NavigateCreateRoutineCommand}" Text="Create Routine" />
+            <FlexLayout JustifyContent="SpaceBetween">
+                <Label Style="{StaticResource PageHeading}" Text="Your Routines" />
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding NavigateCreateRoutineCommand}"
+                    Style="{StaticResource ButtonPrimary}"
+                    Text="Create" />
+            </FlexLayout>
+            <VerticalStackLayout Margin="0,50,0,0">
+                <components:If Condition="{Binding Loading}">
+                    <components:If.True>
+                        <ActivityIndicator IsRunning="True" />
+                    </components:If.True>
+                    <components:If.False>
+                        <components:If Condition="{Binding HasError}">
+                            <components:If.True>
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <Label Text="{Binding ErrorMessage}" />
+                                    <Button
+                                        Margin="0,10,0,0"
+                                        Command="{Binding LoadRoutinesCommand}"
+                                        Style="{StaticResource ButtonLink}"
+                                        Text="Try again." />
+                                </VerticalStackLayout>
+                            </components:If.True>
+                            <components:If.False>
+                                <components:If Condition="{Binding HasRoutinePreviews}">
+                                    <components:If.False>
+                                        <VerticalStackLayout HorizontalOptions="Center">
+                                            <Label Text="You have not created any routines yet." />
+                                            <Button
+                                                Margin="0,10,0,0"
+                                                Command="{Binding NavigateCreateRoutineCommand}"
+                                                Style="{StaticResource ButtonLink}"
+                                                Text="Create your first routine." />
+                                        </VerticalStackLayout>
+                                    </components:If.False>
+                                    <components:If.True>
+                                        <CollectionView ItemsSource="{Binding RoutinePreviews}">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <VerticalStackLayout Padding="0,20">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <VerticalStackLayout Grid.Column="0">
+                                                                <Label
+                                                                    FontAttributes="Bold"
+                                                                    FontSize="Medium"
+                                                                    Text="{Binding Name}" />
+                                                                <Label
+                                                                    Margin="0,5,0,0"
+                                                                    FontSize="Caption"
+                                                                    Text="{Binding StepsCount, StringFormat='{0} Steps'}" />
+                                                            </VerticalStackLayout>
+                                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                                <Button
+                                                                    Margin="10,0,0,0"
+                                                                    Command="{Binding NavigateRoutinePlayCommand}"
+                                                                    Style="{StaticResource ButtonLink}"
+                                                                    Text="Play Routine" />
+                                                            </VerticalStackLayout>
+                                                        </Grid>
+                                                    </VerticalStackLayout>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </components:If.True>
+                                </components:If>
+                            </components:If.False>
+                        </components:If>
+                    </components:If.False>
+                </components:If>
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding RoutinePreviews}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Name}" />
-                            <Label Text="{Binding StepsCount}" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Button Command="{Binding NavigateRoutinePlayCommand}" Text="Play" />
-                        </VerticalStackLayout>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+    </widgets:PageLayout>
 </ContentPage>
