@@ -15,6 +15,7 @@ namespace Routini.MAUI.Entities.Routines
         [MinLength(1, ErrorMessage = "Required")]
         private string _name = string.Empty;
         public string? NameErrorMessage => GetErrors(nameof(Name)).FirstOrDefault()?.ErrorMessage;
+        public bool HasNameErrorMessage => !string.IsNullOrEmpty(NameErrorMessage);
 
         public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
 
@@ -80,6 +81,7 @@ namespace Routini.MAUI.Entities.Routines
         private void OnErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
         {
             OnPropertyChanged(nameof(NameErrorMessage));
+            OnPropertyChanged(nameof(HasNameErrorMessage));
         }
     }
 }

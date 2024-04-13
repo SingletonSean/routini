@@ -15,6 +15,7 @@ namespace Routini.MAUI.Entities.Routines
         [MinLength(1, ErrorMessage = "Required")]
         private string _name = string.Empty;
         public string? NameErrorMessage => GetErrors(nameof(Name)).FirstOrDefault()?.ErrorMessage;
+        public bool HasNameErrorMessage => !string.IsNullOrEmpty(NameErrorMessage);
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
@@ -22,6 +23,7 @@ namespace Routini.MAUI.Entities.Routines
         [Range(0, double.MaxValue, ErrorMessage = "Must be greater than 0")]
         private double _durationSeconds = 30;
         public string? DurationSecondsErrorMessage => GetErrors(nameof(DurationSeconds)).FirstOrDefault()?.ErrorMessage;
+        public bool HasDurationSecondsErrorMessage => !string.IsNullOrEmpty(DurationSecondsErrorMessage);
 
         public RoutineStepFormViewModel(Action<RoutineStepFormViewModel> onDelete)
         {
@@ -44,7 +46,9 @@ namespace Routini.MAUI.Entities.Routines
         private void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
         {
             OnPropertyChanged(nameof(NameErrorMessage));
+            OnPropertyChanged(nameof(HasNameErrorMessage));
             OnPropertyChanged(nameof(DurationSecondsErrorMessage));
+            OnPropertyChanged(nameof(HasDurationSecondsErrorMessage));
         }
     }
 }

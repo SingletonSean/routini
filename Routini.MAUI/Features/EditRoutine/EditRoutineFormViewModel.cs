@@ -19,13 +19,12 @@ namespace Routini.MAUI.Features.EditRoutine
         {
             _routine = routine;
             _updateRoutineMutation = updateRoutineMutation;
+            _shell = shell;
 
             RoutineFormViewModel = new RoutineFormViewModel(EditRoutine);
             
             RoutineFormViewModel.Name = _routine.Name;
             RoutineFormViewModel.ResetRoutineSteps(_routine.Steps);
-
-            _shell = shell;
         }
 
         private async Task EditRoutine()

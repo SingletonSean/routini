@@ -4,9 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:edit="clr-namespace:Routini.MAUI.Features.EditRoutine"
+    xmlns:widgets="clr-namespace:Routini.MAUI.Widgets"
     Title="Edit Routine">
-    <VerticalStackLayout>
-        <Label Text="Edit Routine" />
-        <edit:EditRoutineFormView BindingContext="{Binding EditRoutineFormViewModel}" />
-    </VerticalStackLayout>
+    <widgets:PageLayout>
+        <VerticalStackLayout>
+            <Label Style="{StaticResource PageHeading}" Text="Edit Routine" />
+            <edit:EditRoutineFormView Margin="0,50,0,0" BindingContext="{Binding EditRoutineFormViewModel}" />
+        </VerticalStackLayout>
+    </widgets:PageLayout>
 </ContentPage>
