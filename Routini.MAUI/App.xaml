@@ -8,6 +8,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <Style TargetType="Label">
+                        <Setter Property="FontFamily" Value="Inter" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontFamily" Value="Inter" />
+                    </Style>
                     <Style x:Key="PageHeading" TargetType="Label">
                         <Setter Property="FontSize" Value="Large" />
                         <Setter Property="FontAttributes" Value="Bold" />
@@ -15,17 +21,17 @@
                     <Style x:Key="ButtonPrimary" TargetType="Button">
                         <Setter Property="BorderWidth" Value="0" />
                         <Setter Property="CornerRadius" Value="10" />
-                        <Setter Property="FontAttributes" Value="Bold" />
                         <Setter Property="BackgroundColor" Value="#1D843A" />
                         <Setter Property="TextColor" Value="White" />
                         <Setter Property="Padding" Value="20,5" />
+                        <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
                     <Style x:Key="ButtonLink" TargetType="Button">
                         <Setter Property="BorderWidth" Value="0" />
                         <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="FontAttributes" Value="Bold" />
                         <Setter Property="TextColor" Value="#154CD9" />
                         <Setter Property="Padding" Value="0" />
+                        <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
