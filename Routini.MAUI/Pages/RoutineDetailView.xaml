@@ -3,17 +3,33 @@
     x:Class="Routini.MAUI.Pages.RoutineDetailView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Routini.MAUI.Shared.Components"
     xmlns:play="clr-namespace:Routini.MAUI.Features.PlayRoutine"
+    xmlns:widgets="clr-namespace:Routini.MAUI.Widgets"
     Title="Play Routine"
     OnDisappearingCommand="{Binding DisposeRoutineCommand}">
-    <VerticalStackLayout>
+    <widgets:PageLayout>
         <VerticalStackLayout>
-            <Label Text="{Binding Name}" />
+            <FlexLayout JustifyContent="SpaceBetween">
+                <Label Style="{StaticResource PageHeading}" Text="{Binding Name}" />
+                <components:If Condition="{Binding Started}">
+                    <components:If.False>
+                        <HorizontalStackLayout>
+                            <Button
+                                Margin="10,0,0,0"
+                                Command="{Binding EditRoutineCommand}"
+                                Style="{StaticResource ButtonSecondary}"
+                                Text="Edit" />
+                            <Button
+                                Margin="10,0,0,0"
+                                Command="{Binding DeleteRoutineCommand}"
+                                Style="{StaticResource ButtonDanger}"
+                                Text="Delete" />
+                        </HorizontalStackLayout>
+                    </components:If.False>
+                </components:If>
+            </FlexLayout>
+            <play:PlayRoutineView Margin="0,50,0,0" BindingContext="{Binding PlayRoutineViewModel}" />
         </VerticalStackLayout>
-
-        <Button Command="{Binding EditRoutineCommand}" Text="Edit" />
-        <Button Command="{Binding DeleteRoutineCommand}" Text="Delete" />
-
-        <play:PlayRoutineView BindingContext="{Binding PlayRoutineViewModel}" />
-    </VerticalStackLayout>
+    </widgets:PageLayout>
 </ContentPage>

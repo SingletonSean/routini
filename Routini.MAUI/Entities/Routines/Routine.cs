@@ -24,7 +24,7 @@ namespace Routini.MAUI.Entities.Routines
         public event Action? Updated;
         public event Action? StepChanged;
 
-        private int _currentStepIndex = 0;
+        public int _currentStepIndex = 0;
         private DateTimeOffset _currentStepStartTime;
         public RoutineStep? CurrentStep
         {
@@ -38,6 +38,8 @@ namespace Routini.MAUI.Entities.Routines
                 return Steps.ElementAt(_currentStepIndex);
             }
         }
+
+        public int CurrentStepOrder => _currentStepIndex;
 
         public double CurrentStepSecondsRemaining
         {
@@ -54,12 +56,12 @@ namespace Routini.MAUI.Entities.Routines
             }
         }
 
-        public bool Started { get; set; }
+        public bool Started { get; private set; }
 
         private DateTimeOffset _pauseTime;
-        public bool Paused { get; set; }
+        public bool Paused { get; private set; }
         
-        public bool Completed { get; set; }
+        public bool Completed { get; private set; }
 
         public void Start()
         {
@@ -71,6 +73,8 @@ namespace Routini.MAUI.Entities.Routines
             Started = true;
             Paused = false;
             Completed = false;
+
+            RaiseUpdated();
         }
 
         public void Pause()
@@ -79,6 +83,8 @@ namespace Routini.MAUI.Entities.Routines
             _pauseTime = DateTimeOffset.Now;
 
             Paused = true;
+
+            RaiseUpdated();
         }
 
         public void Resume()
@@ -87,6 +93,8 @@ namespace Routini.MAUI.Entities.Routines
             _currentStepStartTime = _currentStepStartTime.Add(DateTimeOffset.Now.Subtract(_pauseTime));
 
             Paused = false;
+
+            RaiseUpdated();
         }
 
         public void Cancel()
@@ -96,6 +104,8 @@ namespace Routini.MAUI.Entities.Routines
             Started = false;
             Paused = false;
             Completed = false;
+
+            RaiseUpdated();
         }
 
         private void Complete()
@@ -105,6 +115,8 @@ namespace Routini.MAUI.Entities.Routines
             Started = false;
             Paused = false;
             Completed = true;
+
+            RaiseUpdated();
         }
 
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
@@ -122,6 +134,11 @@ namespace Routini.MAUI.Entities.Routines
                 Complete();
             }
 
+            RaiseUpdated();
+        }
+
+        private void RaiseUpdated()
+        {
             Updated?.Invoke();
         }
     }

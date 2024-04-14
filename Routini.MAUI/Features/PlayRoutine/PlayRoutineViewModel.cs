@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
+using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Features.PlayRoutine
 {
@@ -12,6 +13,10 @@ namespace Routini.MAUI.Features.PlayRoutine
 
         private IAudioPlayer? _stepChangedSound;
 
+        public bool Started => _routine.Started;
+        public bool Paused => _routine.Paused;
+        public IEnumerable<PlayRoutineStepViewModel> Steps { get; }
+        public int CurrentStepOrder => _routine.CurrentStepOrder + 1;
         public string CurrentStepName => _routine.CurrentStep?.Name ?? string.Empty;
         public double CurrentStepSecondsRemaining => _routine.CurrentStepSecondsRemaining;
 
@@ -19,6 +24,10 @@ namespace Routini.MAUI.Features.PlayRoutine
         {
             _routine = routine;
             _audio = audio;
+
+            Steps = new ObservableCollection<PlayRoutineStepViewModel>(
+                routine.Steps.Select((s, i) => new PlayRoutineStepViewModel(s.Name, s.Duration.TotalSeconds, i))
+            );
 
             _routine.Updated += OnRoutineUpdated;
             _routine.StepChanged += OnRoutineStepChanged;
@@ -50,6 +59,9 @@ namespace Routini.MAUI.Features.PlayRoutine
 
         private void OnRoutineUpdated()
         {
+            OnPropertyChanged(nameof(Started));
+            OnPropertyChanged(nameof(Paused));
+            OnPropertyChanged(nameof(CurrentStepOrder));
             OnPropertyChanged(nameof(CurrentStepName));
             OnPropertyChanged(nameof(CurrentStepSecondsRemaining));
         }

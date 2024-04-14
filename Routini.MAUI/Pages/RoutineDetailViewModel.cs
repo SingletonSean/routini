@@ -22,8 +22,34 @@ namespace Routini.MAUI.Pages
 
         public string Name => Routine?.Name ?? string.Empty;
 
-        [ObservableProperty]
+
         private PlayRoutineViewModel? _playRoutineViewModel;
+        public PlayRoutineViewModel? PlayRoutineViewModel
+        {
+            get
+            {
+                return _playRoutineViewModel;
+            }
+            private set
+            {
+                if (_playRoutineViewModel != null)
+                {
+                    _playRoutineViewModel.PropertyChanged -= OnPlayRoutineViewModelPropertyChanged;
+                }
+
+                _playRoutineViewModel = value;
+
+                if (_playRoutineViewModel != null)
+                {
+                    _playRoutineViewModel.PropertyChanged += OnPlayRoutineViewModelPropertyChanged;
+                }
+
+                OnPropertyChanged(nameof(PlayRoutineViewModel));
+                OnPropertyChanged(nameof(Started));
+            }
+        }
+
+        public bool Started => PlayRoutineViewModel?.Started ?? false;
 
         [ObservableProperty]
         private string? _errorMessage;
@@ -103,6 +129,11 @@ namespace Routini.MAUI.Pages
         private void DisposeRoutine()
         {
             PlayRoutineViewModel?.CancelRoutineCommand.Execute(null);
+        }
+
+        private void OnPlayRoutineViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Started));
         }
     }
 }
