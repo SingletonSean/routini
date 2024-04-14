@@ -40,7 +40,7 @@ namespace Routini.MAUI.Entities.Routines
                     CurrentStep.Duration.TotalSeconds -
                     DateTimeOffset.Now.Subtract(_currentStepStartTime).TotalSeconds);
 
-                if (remaining < 0)
+                if (remaining <= 0)
                 {
                     return 0;
                 }
