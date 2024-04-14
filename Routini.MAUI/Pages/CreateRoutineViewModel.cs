@@ -28,7 +28,7 @@ namespace Routini.MAUI.Pages
             RoutineFormViewModel.ErrorMessage = null;
 
             RoutineFormViewModel.Name = string.Empty;
-            RoutineFormViewModel.RoutineSteps.Clear();
+            RoutineFormViewModel.ResetRoutineSteps();
         }
 
         private async Task CreateRoutine()

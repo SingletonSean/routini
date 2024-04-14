@@ -32,6 +32,12 @@ namespace Routini.MAUI.Entities.Routines
             ErrorsChanged += OnErrorsChanged;
         }
 
+        public void Reset()
+        {
+            Name = string.Empty;
+            DurationSeconds = 30;
+        }
+
         [RelayCommand]
         private void Delete()
         {

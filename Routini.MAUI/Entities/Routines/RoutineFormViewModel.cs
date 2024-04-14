@@ -17,7 +17,7 @@ namespace Routini.MAUI.Entities.Routines
         public string? NameErrorMessage => GetErrors(nameof(Name)).FirstOrDefault()?.ErrorMessage;
         public bool HasNameErrorMessage => !string.IsNullOrEmpty(NameErrorMessage);
 
-        public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
+        public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; private set; }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(HasErrorMessage))]
@@ -32,16 +32,19 @@ namespace Routini.MAUI.Entities.Routines
         {
             _onSubmit = onSubmit;
 
-            RoutineSteps = new ObservableCollection<RoutineStepFormViewModel>();
+            RoutineSteps = new ObservableCollection<RoutineStepFormViewModel>()
+            {
+                new RoutineStepFormViewModel(DeleteRoutineStep)
+            };
 
             ErrorsChanged += OnErrorsChanged;
         }
 
-        public void ResetRoutineSteps(IEnumerable<RoutineStep> steps)
+        public void ResetRoutineSteps(IEnumerable<RoutineStep>? steps = null)
         {
             RoutineSteps.Clear();
 
-            foreach (RoutineStep step in steps)
+            foreach (RoutineStep step in steps ?? new List<RoutineStep>())
             {
                 RoutineStepFormViewModel stepViewModel = new RoutineStepFormViewModel(DeleteRoutineStep);
 
@@ -49,6 +52,11 @@ namespace Routini.MAUI.Entities.Routines
                 stepViewModel.DurationSeconds = step.Duration.TotalSeconds;
 
                 RoutineSteps.Add(stepViewModel);
+            }
+
+            if (RoutineSteps.Count == 0)
+            {
+                RoutineSteps.Add(new RoutineStepFormViewModel(DeleteRoutineStep));
             }
         }
 
@@ -60,6 +68,13 @@ namespace Routini.MAUI.Entities.Routines
 
         private void DeleteRoutineStep(RoutineStepFormViewModel viewModel)
         {
+            if (RoutineSteps.Count == 1)
+            {
+                viewModel.Reset();
+
+                return;
+            }
+
             RoutineSteps.Remove(viewModel);
         }
 
