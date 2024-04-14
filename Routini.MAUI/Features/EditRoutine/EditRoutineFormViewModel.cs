@@ -23,8 +23,7 @@ namespace Routini.MAUI.Features.EditRoutine
 
             RoutineFormViewModel = new RoutineFormViewModel(EditRoutine);
             
-            RoutineFormViewModel.Name = _routine.Name;
-            RoutineFormViewModel.ResetRoutineSteps(_routine.Steps);
+            RoutineFormViewModel.Reset(_routine);
         }
 
         private async Task EditRoutine()

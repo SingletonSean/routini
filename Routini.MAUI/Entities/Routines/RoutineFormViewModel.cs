@@ -40,11 +40,17 @@ namespace Routini.MAUI.Entities.Routines
             ErrorsChanged += OnErrorsChanged;
         }
 
-        public void ResetRoutineSteps(IEnumerable<RoutineStep>? steps = null)
+        public void Reset(Routine? routine = null)
         {
+            Submitting = false;
+            ErrorMessage = null;
+            ClearErrors();
+
+            Name = routine?.Name ?? string.Empty;
+
             RoutineSteps.Clear();
 
-            foreach (RoutineStep step in steps ?? new List<RoutineStep>())
+            foreach (RoutineStep step in routine?.Steps ?? new List<RoutineStep>())
             {
                 RoutineStepFormViewModel stepViewModel = new RoutineStepFormViewModel(DeleteRoutineStep);
 
