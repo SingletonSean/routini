@@ -36,9 +36,16 @@ namespace Routini.MAUI.Entities.Routines
                     return 0;
                 }
 
-                return Math.Ceiling(
+                double remaining = Math.Ceiling(
                     CurrentStep.Duration.TotalSeconds -
                     DateTimeOffset.Now.Subtract(_currentStepStartTime).TotalSeconds);
+
+                if (remaining < 0)
+                {
+                    return 0;
+                }
+
+                return remaining;
             }
         }
 
@@ -122,7 +129,7 @@ namespace Routini.MAUI.Entities.Routines
 
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
         {
-            if (CurrentStepSecondsRemaining <= 0)
+            if (CurrentStepSecondsRemaining == 0)
             {
                 _currentStepIndex++;
                 _currentStepStartTime = DateTimeOffset.Now;
