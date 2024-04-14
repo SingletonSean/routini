@@ -27,7 +27,7 @@ jobs:
       run: dotnet build -c Release -f:net8.0-maccatalyst
 
     - name: Publish
-      run: dotnet publish -c Release -f:net8.0-maccatalyst /p:GenerateAppxPackageOnBuild=true
+      run: dotnet publish -c Release -f:net8.0-maccatalyst
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3.1.0
