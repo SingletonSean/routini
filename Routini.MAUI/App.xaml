@@ -18,32 +18,33 @@
                         <Setter Property="FontSize" Value="Large" />
                         <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
-                    <Style x:Key="ButtonPrimary" TargetType="Button">
+                    <Style x:Key="ButtonBase" TargetType="Button">
                         <Setter Property="VerticalOptions" Value="Center" />
                         <Setter Property="BorderWidth" Value="0" />
                         <Setter Property="CornerRadius" Value="10" />
+                        <Setter Property="Padding" Value="20,10" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </Style>
+                    <Style
+                        x:Key="ButtonPrimary"
+                        BasedOn="{StaticResource ButtonBase}"
+                        TargetType="Button">
                         <Setter Property="BackgroundColor" Value="#1D843A" />
                         <Setter Property="TextColor" Value="White" />
-                        <Setter Property="Padding" Value="20,10" />
-                        <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
-                    <Style x:Key="ButtonSecondary" TargetType="Button">
-                        <Setter Property="VerticalOptions" Value="Center" />
-                        <Setter Property="BorderWidth" Value="0" />
-                        <Setter Property="CornerRadius" Value="10" />
+                    <Style
+                        x:Key="ButtonSecondary"
+                        BasedOn="{StaticResource ButtonBase}"
+                        TargetType="Button">
                         <Setter Property="BackgroundColor" Value="#DCDCDC" />
                         <Setter Property="TextColor" Value="Black" />
-                        <Setter Property="Padding" Value="20,10" />
-                        <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
-                    <Style x:Key="ButtonDanger" TargetType="Button">
-                        <Setter Property="VerticalOptions" Value="Center" />
-                        <Setter Property="BorderWidth" Value="0" />
-                        <Setter Property="CornerRadius" Value="10" />
+                    <Style
+                        x:Key="ButtonDanger"
+                        BasedOn="{StaticResource ButtonBase}"
+                        TargetType="Button">
                         <Setter Property="BackgroundColor" Value="#DA3737" />
                         <Setter Property="TextColor" Value="White" />
-                        <Setter Property="Padding" Value="20,10" />
-                        <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
                     <Style x:Key="ButtonLink" TargetType="Button">
                         <Setter Property="BorderWidth" Value="0" />
