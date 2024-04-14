@@ -32,4 +32,4 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3.1.0
       with:
-        path: .\**\publish\**\*.*
+        path: Routini.MAUI/bin/Release/net8.0-maccatalyst/publish
