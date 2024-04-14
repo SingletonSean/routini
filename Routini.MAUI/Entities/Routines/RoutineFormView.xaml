@@ -77,5 +77,20 @@
             HorizontalOptions="Start"
             Style="{StaticResource ButtonPrimary}"
             Text="{Binding SubmitButtonText, Source={x:Reference component}}" />
+        <components:If
+            Margin="0,20,0,0"
+            Condition="{Binding Submitting}"
+            HorizontalOptions="Start">
+            <components:If.True>
+                <ActivityIndicator IsRunning="True" />
+            </components:If.True>
+            <components:If.False>
+                <components:If Margin="0,20,0,0" Condition="{Binding HasErrorMessage}">
+                    <components:If.True>
+                        <Label Text="{Binding ErrorMessage}" />
+                    </components:If.True>
+                </components:If>
+            </components:If.False>
+        </components:If>
     </VerticalStackLayout>
 </ContentView>

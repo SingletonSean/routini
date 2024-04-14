@@ -20,7 +20,10 @@ namespace Routini.MAUI.Entities.Routines
         public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; set; }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasErrorMessage))]
         private string? _errorMessage;
+
+        public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
         [ObservableProperty]
         private bool? _submitting;
