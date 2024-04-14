@@ -6,7 +6,6 @@
     xmlns:components="clr-namespace:Routini.MAUI.Shared.Components"
     xmlns:play="clr-namespace:Routini.MAUI.Features.PlayRoutine"
     xmlns:widgets="clr-namespace:Routini.MAUI.Widgets"
-    Title="Play Routine"
     OnDisappearingCommand="{Binding DisposeRoutineCommand}">
     <widgets:PageLayout>
         <VerticalStackLayout>

@@ -4,8 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:edit="clr-namespace:Routini.MAUI.Features.EditRoutine"
-    xmlns:widgets="clr-namespace:Routini.MAUI.Widgets"
-    Title="Edit Routine">
+    xmlns:widgets="clr-namespace:Routini.MAUI.Widgets">
     <widgets:PageLayout>
         <VerticalStackLayout>
             <Label Style="{StaticResource PageHeading}" Text="Edit Routine" />
