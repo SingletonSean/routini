@@ -6,9 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Features.PlayRoutine
 {
-    public partial class PlayRoutineViewModel : ObservableObject
+    public partial class PlayRoutineViewModel : ObservableObject, IDisposable
     {
-        private readonly Routine _routine;
+        private readonly PlayableRoutine _routine;
         private readonly IAudioManager _audio;
 
         private IAudioPlayer? _stepChangedSound;
@@ -22,7 +22,7 @@ namespace Routini.MAUI.Features.PlayRoutine
 
         public PlayRoutineViewModel(Routine routine, IAudioManager audio)
         {
-            _routine = routine;
+            _routine = new PlayableRoutine(routine);
             _audio = audio;
 
             Steps = new ObservableCollection<PlayRoutineStepViewModel>(
@@ -31,6 +31,11 @@ namespace Routini.MAUI.Features.PlayRoutine
 
             _routine.Updated += OnRoutineUpdated;
             _routine.StepChanged += OnRoutineStepChanged;
+        }
+
+        public void Dispose()
+        {
+            _routine.Dispose();
         }
 
         [RelayCommand]

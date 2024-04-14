@@ -22,7 +22,6 @@ namespace Routini.MAUI.Pages
 
         public string Name => Routine?.Name ?? string.Empty;
 
-
         private PlayRoutineViewModel? _playRoutineViewModel;
         public PlayRoutineViewModel? PlayRoutineViewModel
         {
@@ -128,7 +127,7 @@ namespace Routini.MAUI.Pages
         [RelayCommand]
         private void DisposeRoutine()
         {
-            PlayRoutineViewModel?.CancelRoutineCommand.Execute(null);
+            PlayRoutineViewModel?.Dispose();
         }
 
         private void OnPlayRoutineViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
