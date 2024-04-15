@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using Routini.MAUI.Application.Database;
+using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Shared.Databases;
 
 namespace Routini.MAUI.Test.Mocks
@@ -27,6 +28,13 @@ namespace Routini.MAUI.Test.Mocks
             await databaseInitializer.Initialize();
 
             return mockEnvironment;
+        }
+
+        public async Task AddRoutine(NewRoutine routine)
+        {
+            CreateRoutineMutation createRoutineMutation = ServiceProvider.GetRequiredService<CreateRoutineMutation>();
+
+            await createRoutineMutation.Execute(routine);
         }
     }
 }
