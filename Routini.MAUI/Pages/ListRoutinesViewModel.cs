@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Shared.Shells;
@@ -11,6 +12,7 @@ namespace Routini.MAUI.Pages
     {
         private readonly GetAllRoutinesQuery _query;
         private readonly IShell _shell;
+        private readonly ILogger<ListRoutinesViewModel> _logger;
 
         public ObservableCollection<RoutinePreviewViewModel> RoutinePreviews { get; }
 
@@ -25,10 +27,11 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private bool? _loading;
 
-        public ListRoutinesViewModel(GetAllRoutinesQuery query, IShell shell)
+        public ListRoutinesViewModel(GetAllRoutinesQuery query, IShell shell, ILogger<ListRoutinesViewModel> logger)
         {
             _query = query;
             _shell = shell;
+            _logger = logger;
 
             RoutinePreviews = new ObservableCollection<RoutinePreviewViewModel>();
             RoutinePreviews.CollectionChanged += OnRoutinePreviewsCollectionChanged;
@@ -42,12 +45,18 @@ namespace Routini.MAUI.Pages
 
             try
             {
+                _logger.LogInformation("Loading routines.");
+
                 IEnumerable<Routine> routines = await _query.Execute();
 
                 ResetRoutines(routines);
+
+                _logger.LogInformation("Successfully loaded routines: {RoutineCount}", routines.Count());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to load routines.");
+
                 ErrorMessage = "Failed to load routines. Please try again later.";
             }
             finally

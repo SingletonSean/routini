@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ namespace Routini.MAUI.Features.PlayRoutine
     {
         private readonly PlayableRoutine _routine;
         private readonly IAudioManager _audio;
+        private readonly ILogger _logger;
 
         private IAudioPlayer? _stepChangedSound;
 
@@ -20,10 +22,11 @@ namespace Routini.MAUI.Features.PlayRoutine
         public string CurrentStepName => _routine.CurrentStep?.Name ?? string.Empty;
         public double CurrentStepSecondsRemaining => _routine.CurrentStepSecondsRemaining;
 
-        public PlayRoutineViewModel(Routine routine, IAudioManager audio)
+        public PlayRoutineViewModel(Routine routine, IAudioManager audio, ILogger logger)
         {
             _routine = new PlayableRoutine(routine);
             _audio = audio;
+            _logger = logger;
 
             Steps = new ObservableCollection<PlayRoutineStepViewModel>(
                 routine.Steps.Select((s, i) => new PlayRoutineStepViewModel(s.Name, s.Duration.TotalSeconds, i))
@@ -82,9 +85,9 @@ namespace Routini.MAUI.Features.PlayRoutine
 
                 _stepChangedSound.Play();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Failed to play routine step change audio.");
             }
         }
     }

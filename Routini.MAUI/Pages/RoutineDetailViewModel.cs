@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.DeleteRoutine;
@@ -15,6 +16,7 @@ namespace Routini.MAUI.Pages
         private readonly DeleteRoutineMutation _deleteRoutineMutation;
         private readonly IAudioManager _audio;
         private readonly IShell _shell;
+        private readonly ILogger<RoutineDetailViewModel> _logger;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Name))]
@@ -60,12 +62,14 @@ namespace Routini.MAUI.Pages
             GetRoutineByIdQuery query,
             DeleteRoutineMutation deleteRoutineMutation,
             IAudioManager audio,
-            IShell shell)
+            IShell shell,
+            ILogger<RoutineDetailViewModel> logger)
         {
             _query = query;
             _deleteRoutineMutation = deleteRoutineMutation;
             _audio = audio;
             _shell = shell;
+            _logger = logger;
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -76,13 +80,16 @@ namespace Routini.MAUI.Pages
             try
             {
                 Guid id = Guid.Parse(queryParameters["Id"]?.ToString() ?? "");
+                _logger.LogInformation("Loading routine: {RoutineId}", id);
 
                 Routine = await _query.Execute(id);
 
-                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio);
+                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger);
+                _logger.LogInformation("Successfully loaded routine: {RoutineId}", id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to load routine: {DetailsQueryParameters}", queryParameters);
                 ErrorMessage = "Failed to load routine. Please try again later.";
             }
             finally
@@ -119,9 +126,12 @@ namespace Routini.MAUI.Pages
                 return;
             }
 
+            _logger.LogInformation("Deleting routine: {RoutineId}", Routine.Id);
+
             await _deleteRoutineMutation.Execute(Routine.Id);
 
             await _shell.GoToAsync("..");
+            _logger.LogInformation("Successfully deleted routine: {RoutineId}", Routine.Id);
         }
 
         [RelayCommand]

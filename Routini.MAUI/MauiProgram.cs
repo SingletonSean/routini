@@ -8,6 +8,7 @@ using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
 using Routini.MAUI.Shared.Shells;
+using Serilog;
 
 namespace Routini.MAUI
 {
@@ -29,6 +30,12 @@ namespace Routini.MAUI
 #endif
 
             IServiceCollection services = builder.Services;
+
+            services.AddSerilog(
+                new LoggerConfiguration()
+                    .WriteTo.Debug()
+                    .WriteTo.File(Path.Combine(FileSystem.Current.AppDataDirectory, "logs", "log.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger());
 
             services.AddSingleton<SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
