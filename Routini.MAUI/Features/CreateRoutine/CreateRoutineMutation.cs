@@ -6,9 +6,9 @@ namespace Routini.MAUI.Features.CreateRoutine
 {
     public class CreateRoutineMutation
     {
-        private readonly SqliteConnectionFactory _sqliteConnectionFactory;
+        private readonly ISqliteConnectionFactory _sqliteConnectionFactory;
 
-        public CreateRoutineMutation(SqliteConnectionFactory sqliteConnectionFactory)
+        public CreateRoutineMutation(ISqliteConnectionFactory sqliteConnectionFactory)
         {
             _sqliteConnectionFactory = sqliteConnectionFactory;
         }

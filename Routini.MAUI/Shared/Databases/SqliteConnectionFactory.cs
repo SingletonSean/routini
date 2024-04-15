@@ -2,7 +2,7 @@
 
 namespace Routini.MAUI.Shared.Databases
 {
-    public class SqliteConnectionFactory
+    public class SqliteConnectionFactory : ISqliteConnectionFactory
     {
         public ISQLiteAsyncConnection Create()
         {

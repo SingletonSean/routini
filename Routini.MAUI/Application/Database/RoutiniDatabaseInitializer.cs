@@ -6,9 +6,9 @@ namespace Routini.MAUI.Application.Database
 {
     public class RoutiniDatabaseInitializer
     {
-        private readonly SqliteConnectionFactory _sqliteConnectionFactory;
+        private readonly ISqliteConnectionFactory _sqliteConnectionFactory;
 
-        public RoutiniDatabaseInitializer(SqliteConnectionFactory sqliteConnectionFactory)
+        public RoutiniDatabaseInitializer(ISqliteConnectionFactory sqliteConnectionFactory)
         {
             _sqliteConnectionFactory = sqliteConnectionFactory;
         }

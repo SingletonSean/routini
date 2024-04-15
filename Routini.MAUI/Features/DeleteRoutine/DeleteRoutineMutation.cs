@@ -6,9 +6,9 @@ namespace Routini.MAUI.Features.DeleteRoutine
 {
     public class DeleteRoutineMutation
     {
-        private readonly SqliteConnectionFactory _sqliteConnectionFactory;
+        private readonly ISqliteConnectionFactory _sqliteConnectionFactory;
 
-        public DeleteRoutineMutation(SqliteConnectionFactory sqliteConnectionFactory)
+        public DeleteRoutineMutation(ISqliteConnectionFactory sqliteConnectionFactory)
         {
             _sqliteConnectionFactory = sqliteConnectionFactory;
         }

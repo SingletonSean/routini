@@ -6,9 +6,9 @@ namespace Routini.MAUI.Features.ListRoutines
 {
     public class GetRoutineByIdQuery
     {
-        private readonly SqliteConnectionFactory _sqliteConnectionFactory;
+        private readonly ISqliteConnectionFactory _sqliteConnectionFactory;
 
-        public GetRoutineByIdQuery(SqliteConnectionFactory sqliteConnectionFactory)
+        public GetRoutineByIdQuery(ISqliteConnectionFactory sqliteConnectionFactory)
         {
             _sqliteConnectionFactory = sqliteConnectionFactory;
         }

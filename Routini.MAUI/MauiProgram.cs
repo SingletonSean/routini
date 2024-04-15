@@ -26,18 +26,25 @@ namespace Routini.MAUI
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             IServiceCollection services = builder.Services;
 
-            services.AddSerilog(
+            services.AddRoutini(
                 new LoggerConfiguration()
                     .WriteTo.Debug()
                     .WriteTo.File(Path.Combine(FileSystem.Current.AppDataDirectory, "logs", "log.txt"), rollingInterval: RollingInterval.Day)
                     .CreateLogger());
 
-            services.AddSingleton<SqliteConnectionFactory>();
+            return builder.Build();
+        }
+
+        public static IServiceCollection AddRoutini(this IServiceCollection services, Serilog.ILogger logger)
+        {
+            services.AddSerilog(logger);
+
+            services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
             services.AddSingleton(AudioManager.Current);
 
@@ -61,7 +68,7 @@ namespace Routini.MAUI
 
             services.AddSingleton<RoutiniDatabaseInitializer>();
 
-            return builder.Build();
+            return services;
         }
     }
 }
