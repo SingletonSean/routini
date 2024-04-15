@@ -74,6 +74,11 @@ namespace Routini.MAUI.Pages
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
         {
+            await ApplyQueryAttributesAsync(queryParameters);
+        }
+
+        public async Task ApplyQueryAttributesAsync(IDictionary<string, object> queryParameters)
+        {
             Loading = true;
             ErrorMessage = null;
 

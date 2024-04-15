@@ -9,7 +9,7 @@ namespace Routini.MAUI.Test
     public class ListRoutineTests
     {
         [Test]
-        public async Task ListRoutines_WhenSuccessful()
+        public async Task ListsRoutines_WhenSuccessful()
         {
             MockEnvironment mockEnvironment = await MockEnvironment.Initialize();
 
