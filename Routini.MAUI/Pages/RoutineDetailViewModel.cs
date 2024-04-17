@@ -7,6 +7,7 @@ using Routini.MAUI.Features.DeleteRoutine;
 using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Features.PlayRoutine;
 using Routini.MAUI.Shared.Shells;
+using Routini.MAUI.Shared.Time;
 
 namespace Routini.MAUI.Pages
 {
@@ -17,6 +18,7 @@ namespace Routini.MAUI.Pages
         private readonly IAudioManager _audio;
         private readonly IShell _shell;
         private readonly ILogger<RoutineDetailViewModel> _logger;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Name))]
@@ -63,13 +65,15 @@ namespace Routini.MAUI.Pages
             DeleteRoutineMutation deleteRoutineMutation,
             IAudioManager audio,
             IShell shell,
-            ILogger<RoutineDetailViewModel> logger)
+            ILogger<RoutineDetailViewModel> logger,
+            IDateTimeProvider dateTimeProvider)
         {
             _query = query;
             _deleteRoutineMutation = deleteRoutineMutation;
             _audio = audio;
             _shell = shell;
             _logger = logger;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -89,7 +93,7 @@ namespace Routini.MAUI.Pages
 
                 Routine = await _query.Execute(id);
 
-                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger);
+                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger, _dateTimeProvider);
                 _logger.LogInformation("Successfully loaded routine: {RoutineId}", id);
             }
             catch (Exception ex)

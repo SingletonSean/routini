@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using Routini.MAUI.Entities.Routines;
+using Routini.MAUI.Shared.Time;
 using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Features.PlayRoutine
@@ -22,9 +23,9 @@ namespace Routini.MAUI.Features.PlayRoutine
         public string CurrentStepName => _routine.CurrentStep?.Name ?? string.Empty;
         public double CurrentStepSecondsRemaining => _routine.CurrentStepSecondsRemaining;
 
-        public PlayRoutineViewModel(Routine routine, IAudioManager audio, ILogger logger)
+        public PlayRoutineViewModel(Routine routine, IAudioManager audio, ILogger logger, IDateTimeProvider dateTimeProvider)
         {
-            _routine = new PlayableRoutine(routine);
+            _routine = new PlayableRoutine(routine, dateTimeProvider);
             _audio = audio;
             _logger = logger;
 

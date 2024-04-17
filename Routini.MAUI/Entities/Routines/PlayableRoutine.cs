@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using Routini.MAUI.Shared.Time;
+using System.Timers;
 
 namespace Routini.MAUI.Entities.Routines
 {
@@ -6,6 +7,7 @@ namespace Routini.MAUI.Entities.Routines
     {
         private readonly Routine _routine;
         private readonly System.Timers.Timer _timer;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public string Name => _routine.Name;
         public IEnumerable<RoutineStep> Steps => _routine.Steps;
@@ -38,7 +40,7 @@ namespace Routini.MAUI.Entities.Routines
 
                 double remaining = Math.Ceiling(
                     CurrentStep.Duration.TotalSeconds -
-                    DateTimeOffset.Now.Subtract(_currentStepStartTime).TotalSeconds);
+                    _dateTimeProvider.UtcNow.Subtract(_currentStepStartTime).TotalSeconds);
 
                 if (remaining <= 0)
                 {
@@ -57,9 +59,10 @@ namespace Routini.MAUI.Entities.Routines
         public event Action? Updated;
         public event Action? StepChanged;
 
-        public PlayableRoutine(Routine routine)
+        public PlayableRoutine(Routine routine, IDateTimeProvider dateTimeProvider)
         {
             _routine = routine;
+            _dateTimeProvider = dateTimeProvider;
 
             _timer = new System.Timers.Timer();
             _timer.Interval = 100;
@@ -74,7 +77,7 @@ namespace Routini.MAUI.Entities.Routines
         public void Start()
         {
             _currentStepIndex = 0;
-            _currentStepStartTime = DateTimeOffset.Now;
+            _currentStepStartTime = _dateTimeProvider.UtcNow;
 
             _timer.Start();
 
@@ -88,7 +91,7 @@ namespace Routini.MAUI.Entities.Routines
         public void Pause()
         {
             _timer.Stop();
-            _pauseTime = DateTimeOffset.Now;
+            _pauseTime = _dateTimeProvider.UtcNow;
 
             Paused = true;
 
@@ -98,7 +101,7 @@ namespace Routini.MAUI.Entities.Routines
         public void Resume()
         {
             _timer.Start();
-            _currentStepStartTime = _currentStepStartTime.Add(DateTimeOffset.Now.Subtract(_pauseTime));
+            _currentStepStartTime = _currentStepStartTime.Add(_dateTimeProvider.UtcNow.Subtract(_pauseTime));
 
             Paused = false;
 
@@ -132,7 +135,7 @@ namespace Routini.MAUI.Entities.Routines
             if (CurrentStepSecondsRemaining == 0)
             {
                 _currentStepIndex++;
-                _currentStepStartTime = DateTimeOffset.Now;
+                _currentStepStartTime = _dateTimeProvider.UtcNow;
 
                 StepChanged?.Invoke();
             }

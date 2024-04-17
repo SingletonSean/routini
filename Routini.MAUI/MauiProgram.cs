@@ -8,6 +8,7 @@ using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
 using Routini.MAUI.Shared.Shells;
+using Routini.MAUI.Shared.Time;
 using Serilog;
 
 namespace Routini.MAUI
@@ -46,6 +47,7 @@ namespace Routini.MAUI
 
             services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddSingleton(AudioManager.Current);
 
             services.AddSingleton<GetAllRoutinesQuery>();
