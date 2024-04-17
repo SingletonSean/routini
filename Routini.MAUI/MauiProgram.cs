@@ -10,6 +10,7 @@ using Routini.MAUI.Shared.Databases;
 using Routini.MAUI.Shared.Shells;
 using Routini.MAUI.Shared.Time;
 using Serilog;
+using MauiIcons.Material.Rounded;
 
 namespace Routini.MAUI
 {
@@ -20,6 +21,7 @@ namespace Routini.MAUI
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMaterialRoundedMauiIcons()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Inter-Regular.ttf", "Inter");

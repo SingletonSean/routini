@@ -1,3 +1,5 @@
+using MauiIcons.Core;
+
 namespace Routini.MAUI.Entities.Routines;
 
 public partial class RoutineFormView : ContentView
@@ -14,5 +16,7 @@ public partial class RoutineFormView : ContentView
 	public RoutineFormView()
 	{
 		InitializeComponent();
-	}
+
+        _ = new MauiIcon();
+    }
 }
