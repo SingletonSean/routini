@@ -1,4 +1,5 @@
-﻿using Routini.MAUI.Entities.Routines;
+﻿using NSubstitute;
+using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Features.PlayRoutine;
 using Routini.MAUI.Pages;
@@ -39,7 +40,25 @@ namespace Routini.MAUI.Test
 
             Assert.That(playRoutineViewModel.Started, Is.False);
 
+            DateTimeOffset startTime = DateTimeOffset.UtcNow;
+            mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime);
             playRoutineViewModel.StartRoutineCommand.Execute(null);
+
+            Assert.That(playRoutineViewModel.Started, Is.True);
+            Assert.That(playRoutineViewModel.CurrentStepName, Is.EqualTo("Hamstrings"));
+
+            mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(16));
+
+            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.EqualTo("Quadriceps").After(1).Seconds);
+
+            mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(31));
+
+            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.EqualTo("Hip Flexors").After(1).Seconds);
+
+            mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(46));
+
+            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.Null.After(1).Seconds);
+            Assert.That(() => playRoutineViewModel.Started, Is.False.After(1).Seconds);
         }
     }
 }

@@ -1,22 +1,28 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using NSubstitute;
 using Routini.MAUI.Application.Database;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.CreateRoutine;
 using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Shared.Databases;
+using Routini.MAUI.Shared.Time;
 
 namespace Routini.MAUI.Test.Mocks
 {
     public class MockEnvironment
     {
         public IServiceProvider ServiceProvider { get; }
+        public IDateTimeProvider MockDateTimeProvider { get; }
 
         private MockEnvironment()
         {
+            MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
+
             ServiceProvider = new ServiceCollection()
                 .AddLogging()
-                .AddRoutini(NSubstitute.Substitute.For<Serilog.ILogger>())
+                .AddRoutini(Substitute.For<Serilog.ILogger>())
                 .Replace(ServiceDescriptor.Singleton<ISqliteConnectionFactory, InMemorySqliteConnectionFactory>())
+                .Replace(ServiceDescriptor.Singleton(MockDateTimeProvider))
                 .BuildServiceProvider();
         }
 

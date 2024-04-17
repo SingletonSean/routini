@@ -20,7 +20,7 @@ namespace Routini.MAUI.Features.PlayRoutine
         public bool Paused => _routine.Paused;
         public IEnumerable<PlayRoutineStepViewModel> Steps { get; }
         public int CurrentStepOrder => _routine.CurrentStepOrder + 1;
-        public string CurrentStepName => _routine.CurrentStep?.Name ?? string.Empty;
+        public string? CurrentStepName => _routine.CurrentStep?.Name;
         public double CurrentStepSecondsRemaining => _routine.CurrentStepSecondsRemaining;
 
         public PlayRoutineViewModel(Routine routine, IAudioManager audio, ILogger logger, IDateTimeProvider dateTimeProvider)
