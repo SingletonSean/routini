@@ -13,16 +13,19 @@ namespace Routini.MAUI.Test.Mocks
     {
         public IServiceProvider ServiceProvider { get; }
         public IDateTimeProvider MockDateTimeProvider { get; }
+        public MockTimer MockTimer { get; }
 
         private MockEnvironment()
         {
             MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
+            MockTimer = new MockTimer();
 
             ServiceProvider = new ServiceCollection()
                 .AddLogging()
                 .AddRoutini(Substitute.For<Serilog.ILogger>())
                 .Replace(ServiceDescriptor.Singleton<ISqliteConnectionFactory, InMemorySqliteConnectionFactory>())
                 .Replace(ServiceDescriptor.Singleton(MockDateTimeProvider))
+                .Replace(ServiceDescriptor.Singleton<Shared.Timers.ITimer>(MockTimer))
                 .BuildServiceProvider();
         }
 

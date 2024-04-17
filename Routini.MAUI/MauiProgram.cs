@@ -48,6 +48,7 @@ namespace Routini.MAUI
             services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<Shared.Timers.ITimer, Shared.Timers.Timer>();
             services.AddSingleton(AudioManager.Current);
 
             services.AddSingleton<GetAllRoutinesQuery>();

@@ -8,6 +8,7 @@ using Routini.MAUI.Features.ListRoutines;
 using Routini.MAUI.Features.PlayRoutine;
 using Routini.MAUI.Shared.Shells;
 using Routini.MAUI.Shared.Time;
+using System.ComponentModel;
 
 namespace Routini.MAUI.Pages
 {
@@ -19,6 +20,7 @@ namespace Routini.MAUI.Pages
         private readonly IShell _shell;
         private readonly ILogger<RoutineDetailViewModel> _logger;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly Shared.Timers.ITimer _timer;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Name))]
@@ -66,7 +68,8 @@ namespace Routini.MAUI.Pages
             IAudioManager audio,
             IShell shell,
             ILogger<RoutineDetailViewModel> logger,
-            IDateTimeProvider dateTimeProvider)
+            IDateTimeProvider dateTimeProvider,
+            Shared.Timers.ITimer timer)
         {
             _query = query;
             _deleteRoutineMutation = deleteRoutineMutation;
@@ -74,6 +77,7 @@ namespace Routini.MAUI.Pages
             _shell = shell;
             _logger = logger;
             _dateTimeProvider = dateTimeProvider;
+            _timer = timer;
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -93,7 +97,7 @@ namespace Routini.MAUI.Pages
 
                 Routine = await _query.Execute(id);
 
-                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger, _dateTimeProvider);
+                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger, _dateTimeProvider, _timer);
                 _logger.LogInformation("Successfully loaded routine: {RoutineId}", id);
             }
             catch (Exception ex)
@@ -149,7 +153,7 @@ namespace Routini.MAUI.Pages
             PlayRoutineViewModel?.Dispose();
         }
 
-        private void OnPlayRoutineViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnPlayRoutineViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Started));
         }

@@ -23,9 +23,14 @@ namespace Routini.MAUI.Features.PlayRoutine
         public string? CurrentStepName => _routine.CurrentStep?.Name;
         public double CurrentStepSecondsRemaining => _routine.CurrentStepSecondsRemaining;
 
-        public PlayRoutineViewModel(Routine routine, IAudioManager audio, ILogger logger, IDateTimeProvider dateTimeProvider)
+        public PlayRoutineViewModel(
+            Routine routine, 
+            IAudioManager audio, 
+            ILogger logger,
+            IDateTimeProvider dateTimeProvider,
+            Shared.Timers.ITimer timer)
         {
-            _routine = new PlayableRoutine(routine, dateTimeProvider);
+            _routine = new PlayableRoutine(routine, dateTimeProvider, timer);
             _audio = audio;
             _logger = logger;
 

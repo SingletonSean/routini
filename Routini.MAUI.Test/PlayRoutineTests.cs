@@ -48,17 +48,20 @@ namespace Routini.MAUI.Test
             Assert.That(playRoutineViewModel.CurrentStepName, Is.EqualTo("Hamstrings"));
 
             mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(16));
+            mockEnvironment.MockTimer.RaiseElapsed();
 
-            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.EqualTo("Quadriceps").After(1).Seconds);
+            Assert.That(playRoutineViewModel.CurrentStepName, Is.EqualTo("Quadriceps"));
 
             mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(31));
+            mockEnvironment.MockTimer.RaiseElapsed();
 
-            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.EqualTo("Hip Flexors").After(1).Seconds);
+            Assert.That(playRoutineViewModel.CurrentStepName, Is.EqualTo("Hip Flexors"));
 
             mockEnvironment.MockDateTimeProvider.UtcNow.Returns(startTime.AddSeconds(46));
+            mockEnvironment.MockTimer.RaiseElapsed();
 
-            Assert.That(() => playRoutineViewModel.CurrentStepName, Is.Null.After(1).Seconds);
-            Assert.That(() => playRoutineViewModel.Started, Is.False.After(1).Seconds);
+            Assert.That(playRoutineViewModel.CurrentStepName, Is.Null);
+            Assert.That(playRoutineViewModel.Started, Is.False);
         }
     }
 }

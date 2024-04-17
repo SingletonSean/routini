@@ -6,7 +6,7 @@ namespace Routini.MAUI.Entities.Routines
     public class PlayableRoutine : IDisposable
     {
         private readonly Routine _routine;
-        private readonly System.Timers.Timer _timer;
+        private readonly Shared.Timers.ITimer _timer;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public string Name => _routine.Name;
@@ -59,12 +59,11 @@ namespace Routini.MAUI.Entities.Routines
         public event Action? Updated;
         public event Action? StepChanged;
 
-        public PlayableRoutine(Routine routine, IDateTimeProvider dateTimeProvider)
+        public PlayableRoutine(Routine routine, IDateTimeProvider dateTimeProvider, Shared.Timers.ITimer timer)
         {
             _routine = routine;
             _dateTimeProvider = dateTimeProvider;
-
-            _timer = new System.Timers.Timer();
+            _timer = timer;
             _timer.Interval = 100;
             _timer.Elapsed += OnTimerElapsed;
         }
