@@ -20,7 +20,7 @@ namespace Routini.MAUI.Pages
         private readonly IShell _shell;
         private readonly ILogger<RoutineDetailViewModel> _logger;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly Shared.Timers.ITimer _timer;
+        private readonly Func<Shared.Timers.ITimer> _timerFactory;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Name))]
@@ -69,7 +69,7 @@ namespace Routini.MAUI.Pages
             IShell shell,
             ILogger<RoutineDetailViewModel> logger,
             IDateTimeProvider dateTimeProvider,
-            Shared.Timers.ITimer timer)
+            Func<Shared.Timers.ITimer> timerFactory)
         {
             _query = query;
             _deleteRoutineMutation = deleteRoutineMutation;
@@ -77,7 +77,7 @@ namespace Routini.MAUI.Pages
             _shell = shell;
             _logger = logger;
             _dateTimeProvider = dateTimeProvider;
-            _timer = timer;
+            _timerFactory = timerFactory;
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> queryParameters)
@@ -97,7 +97,7 @@ namespace Routini.MAUI.Pages
 
                 Routine = await _query.Execute(id);
 
-                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger, _dateTimeProvider, _timer);
+                PlayRoutineViewModel = new PlayRoutineViewModel(Routine, _audio, _logger, _dateTimeProvider, _timerFactory());
                 _logger.LogInformation("Successfully loaded routine: {RoutineId}", id);
             }
             catch (Exception ex)

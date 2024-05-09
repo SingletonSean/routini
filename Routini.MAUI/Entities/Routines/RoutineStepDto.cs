@@ -1,7 +1,10 @@
-﻿namespace Routini.MAUI.Entities.Routines
+﻿using SQLite;
+
+namespace Routini.MAUI.Entities.Routines
 {
     public class RoutineStepDto
     {
+        [PrimaryKey]
         public Guid Id { get; set; }
         public Guid RoutineId { get; set; }
         public string? Name { get; set; }

@@ -25,7 +25,7 @@ namespace Routini.MAUI.Test.Mocks
                 .AddRoutini(Substitute.For<Serilog.ILogger>())
                 .Replace(ServiceDescriptor.Singleton<ISqliteConnectionFactory, InMemorySqliteConnectionFactory>())
                 .Replace(ServiceDescriptor.Singleton(MockDateTimeProvider))
-                .Replace(ServiceDescriptor.Singleton<Shared.Timers.ITimer>(MockTimer))
+                .Replace(ServiceDescriptor.Singleton<Func<Shared.Timers.ITimer>>(() => MockTimer))
                 .BuildServiceProvider();
         }
 
