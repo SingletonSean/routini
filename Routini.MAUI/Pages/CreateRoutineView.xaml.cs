@@ -1,3 +1,4 @@
+using MauiIcons.Core;
 using System.Windows.Input;
 
 namespace Routini.MAUI.Pages;
@@ -18,6 +19,8 @@ public partial class CreateRoutineView : ContentPage
         InitializeComponent();
 
         BindingContext = viewModel;
+
+        _ = new MauiIcon();
     }
 
     protected override void OnAppearing()

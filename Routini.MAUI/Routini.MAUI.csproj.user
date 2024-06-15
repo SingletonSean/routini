@@ -6,9 +6,6 @@
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
-    <MauiXaml Update="Entities\Routines\RoutineFormView.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="Features\EditRoutine\EditRoutineFormView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
