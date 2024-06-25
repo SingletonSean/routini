@@ -85,6 +85,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Entities\Routines\RoutineFormView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Features\EditRoutine\EditRoutineFormView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
