@@ -10,15 +10,12 @@
         <VerticalStackLayout>
             <Label FontAttributes="Bold" Text="Name" />
             <Entry Margin="0,5,0,0" Text="{Binding Name}" />
-            <components:If Condition="{Binding HasNameErrorMessage}">
-                <components:If.True>
-                    <Label
-                        Margin="0,5,0,0"
-                        FontSize="Caption"
-                        Text="{Binding NameErrorMessage}"
-                        TextColor="Red" />
-                </components:If.True>
-            </components:If>
+            <Label
+                Margin="0,5,0,0"
+                FontSize="Caption"
+                IsVisible="{Binding HasNameErrorMessage}"
+                Text="{Binding NameErrorMessage}"
+                TextColor="Red" />
         </VerticalStackLayout>
         <VerticalStackLayout Margin="0,20,0,0">
             <Label

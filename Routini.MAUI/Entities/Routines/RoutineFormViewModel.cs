@@ -6,6 +6,25 @@ namespace Routini.MAUI.Entities.Routines
 {
     public partial class RoutineFormViewModel : ObservableObject
     {
+        private readonly Dictionary<string, List<string>> _propertyNameToErrors = new Dictionary<string, List<string>>();
+
+        public bool HasErrors => _propertyNameToErrors.Count > 0;
+
+        private void AddError(string propertyName, string errorMessage)
+        {
+            if (!_propertyNameToErrors.ContainsKey(propertyName))
+            {
+                _propertyNameToErrors.Add(propertyName, new List<string>());
+            }
+
+            _propertyNameToErrors[propertyName].Add(errorMessage);
+        }
+
+        public void ClearErrors(string propertyName)
+        {
+            _propertyNameToErrors.Remove(propertyName);
+        }
+
         private readonly Func<Task> _onSubmit;
 
         private string _name = string.Empty;
@@ -17,8 +36,36 @@ namespace Routini.MAUI.Entities.Routines
             }
             set
             {
+                if (_name == value)
+                {
+                    return;
+                }
+
                 _name = value;
+
+                ValidateName();
+
                 OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(NameErrorMessage));
+                OnPropertyChanged(nameof(HasNameErrorMessage));
+            }
+        }
+
+        public string? NameErrorMessage => _propertyNameToErrors.GetValueOrDefault(nameof(Name))?.FirstOrDefault();
+        public bool HasNameErrorMessage => !string.IsNullOrEmpty(NameErrorMessage);
+
+        public void Validate()
+        {
+            ValidateName();
+        }
+
+        private void ValidateName()
+        {
+            ClearErrors(nameof(Name));
+
+            if (string.IsNullOrEmpty(_name))
+            {
+                AddError(nameof(Name), "Required");
             }
         }
 
@@ -54,6 +101,7 @@ namespace Routini.MAUI.Entities.Routines
                 OnPropertyChanged(nameof(Submitting));
             }
         }
+
 
         public RoutineFormViewModel(Func<Task> onSubmit)
         {
