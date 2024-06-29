@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using Routini.MAUI.Shared.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace Routini.MAUI.Entities.Routines
 {
-    public partial class RoutineFormViewModel : ObservableObject
+    public partial class RoutineFormViewModel : ValidationViewModel
     {
         private readonly Func<Task> _onSubmit;
 
@@ -17,9 +17,43 @@ namespace Routini.MAUI.Entities.Routines
             }
             set
             {
+                if (_name == value)
+                {
+                    return;
+                }
+
                 _name = value;
+
+                ValidateName();
+
                 OnPropertyChanged(nameof(Name));
             }
+        }
+
+        public string? NameErrorMessage => GetFirstError(nameof(Name));
+        public bool HasNameErrorMessage => !string.IsNullOrEmpty(NameErrorMessage);
+
+        private void Validate()
+        {
+            ValidateName();
+
+            foreach (RoutineStepFormViewModel step in RoutineSteps)
+            {
+                step.Validate();
+            }
+        }
+
+        private void ValidateName()
+        {
+            ClearErrors(nameof(Name));
+
+            if(string.IsNullOrEmpty(Name))
+            {
+                AddError(nameof(Name), "Required");
+            }
+
+            OnPropertyChanged(nameof(NameErrorMessage));
+            OnPropertyChanged(nameof(HasNameErrorMessage));
         }
 
         public ObservableCollection<RoutineStepFormViewModel> RoutineSteps { get; private set; }
@@ -111,6 +145,13 @@ namespace Routini.MAUI.Entities.Routines
         [RelayCommand]
         private async Task Submit()
         {
+            Validate();
+
+            if (HasErrors || RoutineSteps.Any(s => HasErrors))
+            {
+                return;
+            }
+
             await _onSubmit();
         }
     }
