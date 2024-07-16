@@ -11,6 +11,10 @@ using Routini.MAUI.Shared.Shells;
 using Routini.MAUI.Shared.Time;
 using Serilog;
 using MauiIcons.Material.Rounded;
+using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Logging.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Routini.MAUI
 {
@@ -34,19 +38,17 @@ namespace Routini.MAUI
 
             IServiceCollection services = builder.Services;
 
-            services.AddRoutini(
-                new LoggerConfiguration()
-                    .WriteTo.Debug()
-                    .WriteTo.File(Path.Combine(FileSystem.Current.AppDataDirectory, "logs", "log.txt"), rollingInterval: RollingInterval.Day)
-                    .CreateLogger());
+            services.AddRoutini();
+
+            services.AddApplicationInsightsTelemetryWorkerService(
+                config => config.ConnectionString = "InstrumentationKey=ddf17597-b9d0-44c9-a999-c48bddb869f7;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=7000dd6a-5c6e-40b3-87a4-4e29e5202595");
+            builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>(null, LogLevel.Information);
 
             return builder.Build();
         }
 
-        public static IServiceCollection AddRoutini(this IServiceCollection services, Serilog.ILogger logger)
+        public static IServiceCollection AddRoutini(this IServiceCollection services)
         {
-            services.AddSerilog(logger);
-
             services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();

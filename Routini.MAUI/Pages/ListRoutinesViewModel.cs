@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.ListRoutines;
@@ -13,6 +16,7 @@ namespace Routini.MAUI.Pages
         private readonly GetAllRoutinesQuery _query;
         private readonly IShell _shell;
         private readonly ILogger<ListRoutinesViewModel> _logger;
+        private readonly TelemetryClient _client;
 
         public ObservableCollection<RoutinePreviewViewModel> RoutinePreviews { get; }
 
@@ -27,12 +31,13 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private bool? _loading;
 
-        public ListRoutinesViewModel(GetAllRoutinesQuery query, IShell shell, ILogger<ListRoutinesViewModel> logger)
+        public ListRoutinesViewModel(GetAllRoutinesQuery query, IShell shell, ILogger<ListRoutinesViewModel> logger, 
+            TelemetryClient client)
         {
             _query = query;
             _shell = shell;
             _logger = logger;
-
+            _client = client;
             RoutinePreviews = new ObservableCollection<RoutinePreviewViewModel>();
             RoutinePreviews.CollectionChanged += OnRoutinePreviewsCollectionChanged;
         }
@@ -40,18 +45,21 @@ namespace Routini.MAUI.Pages
         [RelayCommand]
         private async Task LoadRoutines()
         {
+            _client.TrackPageView("ListRoutines");
+            _client.TrackEvent("ListRoutines");
+
             Loading = true;
             ErrorMessage = null;
 
             try
             {
-                _logger.LogInformation("Loading routines.");
+                _logger.LogError("Loading routines.");
 
                 IEnumerable<Routine> routines = await _query.Execute();
 
                 ResetRoutines(routines);
 
-                _logger.LogInformation("Successfully loaded routines: {RoutineCount}", routines.Count());
+                _logger.LogInformation("2Successfully loaded routines: {RoutineCount}", routines.Count());
             }
             catch (Exception ex)
             {
