@@ -9,7 +9,6 @@ using Routini.MAUI.Pages;
 using Routini.MAUI.Shared.Databases;
 using Routini.MAUI.Shared.Shells;
 using Routini.MAUI.Shared.Time;
-using Serilog;
 using MauiIcons.Material.Rounded;
 
 namespace Routini.MAUI
@@ -34,19 +33,13 @@ namespace Routini.MAUI
 
             IServiceCollection services = builder.Services;
 
-            services.AddRoutini(
-                new LoggerConfiguration()
-                    .WriteTo.Debug()
-                    .WriteTo.File(Path.Combine(FileSystem.Current.AppDataDirectory, "logs", "log.txt"), rollingInterval: RollingInterval.Day)
-                    .CreateLogger());
+            services.AddRoutini();
 
             return builder.Build();
         }
 
-        public static IServiceCollection AddRoutini(this IServiceCollection services, Serilog.ILogger logger)
+        public static IServiceCollection AddRoutini(this IServiceCollection services)
         {
-            services.AddSerilog(logger);
-
             services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
             services.AddSingleton<IShell, MauiShell>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
