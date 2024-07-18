@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using Routini.MAUI.Entities.Routines;
 using Routini.MAUI.Features.ListRoutines;
@@ -13,6 +14,7 @@ namespace Routini.MAUI.Pages
         private readonly GetAllRoutinesQuery _query;
         private readonly IShell _shell;
         private readonly ILogger<ListRoutinesViewModel> _logger;
+        private readonly TelemetryClient _telemetryClient;
 
         public ObservableCollection<RoutinePreviewViewModel> RoutinePreviews { get; }
 
@@ -27,11 +29,16 @@ namespace Routini.MAUI.Pages
         [ObservableProperty]
         private bool? _loading;
 
-        public ListRoutinesViewModel(GetAllRoutinesQuery query, IShell shell, ILogger<ListRoutinesViewModel> logger)
+        public ListRoutinesViewModel(
+            GetAllRoutinesQuery query, 
+            IShell shell, 
+            ILogger<ListRoutinesViewModel> logger,
+            TelemetryClient telemetryClient)
         {
             _query = query;
             _shell = shell;
             _logger = logger;
+            _telemetryClient = telemetryClient;
 
             RoutinePreviews = new ObservableCollection<RoutinePreviewViewModel>();
             RoutinePreviews.CollectionChanged += OnRoutinePreviewsCollectionChanged;
@@ -78,6 +85,8 @@ namespace Routini.MAUI.Pages
         [RelayCommand]
         private async Task NavigateCreateRoutine()
         {
+            _telemetryClient.TrackEvent("navigate_create_routine_click");
+
             await _shell.GoToAsync("Create");
         }
 
