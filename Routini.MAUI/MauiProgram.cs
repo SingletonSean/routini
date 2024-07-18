@@ -10,6 +10,7 @@ using Routini.MAUI.Shared.Databases;
 using Routini.MAUI.Shared.Shells;
 using Routini.MAUI.Shared.Time;
 using MauiIcons.Material.Rounded;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 
 namespace Routini.MAUI
 {
@@ -34,6 +35,10 @@ namespace Routini.MAUI
             IServiceCollection services = builder.Services;
 
             services.AddRoutini();
+
+            services.AddApplicationInsightsTelemetryWorkerService(config =>
+                config.ConnectionString = "InstrumentationKey=720b4164-dac7-4e20-a71e-3aab4e639969;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=64e3be13-4ca8-4ba4-930e-43f05a28ad55");
+            builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>(null, LogLevel.Information);
 
             return builder.Build();
         }
