@@ -1,8 +1,10 @@
+using Microsoft.ApplicationInsights;
+using Routini.MAUI.Shared.Telemetry;
 using System.Windows.Input;
 
 namespace Routini.MAUI.Pages;
 
-public partial class ListRoutinesView : ContentPage
+public partial class ListRoutinesView : TelemetryContentPage
 {
 	public static readonly BindableProperty OnAppearingCommandProperty =
 		BindableProperty.Create(nameof(OnAppearingCommand), typeof(ICommand), typeof(ListRoutinesView), null);
@@ -13,10 +15,10 @@ public partial class ListRoutinesView : ContentPage
 		set => SetValue(OnAppearingCommandProperty, value);
 	}
 
-	public ListRoutinesView(ListRoutinesViewModel viewModel)
+	public ListRoutinesView(ListRoutinesViewModel viewModel, TelemetryClient telemetryClient) : base(telemetryClient)
 	{
 		InitializeComponent();
-
+		
 		BindingContext = viewModel;
 	}
 
