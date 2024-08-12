@@ -1,28 +1,30 @@
+using Microsoft.ApplicationInsights;
+using Routini.MAUI.Shared.Telemetry;
 using System.Windows.Input;
 
 namespace Routini.MAUI.Pages;
 
-public partial class ListRoutinesView : ContentPage
+public partial class ListRoutinesView : TelemetryContentPage
 {
 	public static readonly BindableProperty OnAppearingCommandProperty =
 		BindableProperty.Create(nameof(OnAppearingCommand), typeof(ICommand), typeof(ListRoutinesView), null);
 
-	public ICommand OnAppearingCommand
+    public ICommand OnAppearingCommand
 	{
 		get => (ICommand)GetValue(OnAppearingCommandProperty);
 		set => SetValue(OnAppearingCommandProperty, value);
 	}
 
-	public ListRoutinesView(ListRoutinesViewModel viewModel)
+	public ListRoutinesView(ListRoutinesViewModel viewModel, TelemetryClient telemetryClient) : base(telemetryClient)
 	{
 		InitializeComponent();
 
 		BindingContext = viewModel;
-	}
+    }
 
     protected override void OnAppearing()
     {
-		OnAppearingCommand?.Execute(null);
+        OnAppearingCommand?.Execute(null);
 
         base.OnAppearing();
     }
